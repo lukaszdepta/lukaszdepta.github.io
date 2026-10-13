@@ -231,15 +231,10 @@ footer a:hover{color:var(--text)}
   <div class="wrap">
     <span class="eyebrow">Demo</span>
     <h2>Posłuchaj, jak to brzmi</h2>
-    <div class="demo-box">
+    <div class="demo-box" style="grid-template-columns:1fr;max-width:640px;margin-inline:auto">
       <div>
-        <h3>Zadzwoń i sprawdź sam</h3>
-        <p>Udawaj klienta z awarią, zajmie to 30 sekund. To zwykła rozmowa, bez dodatkowych opłat.</p>
-        <!-- UZUPEŁNIJ: wpisz numer w href (np. tel:+48123456789) oraz w tekście -->
-        <a class="phone-number" href="tel:+48000000000">[numer demo]</a>
-      </div>
-      <div>
-        <h3>Albo odsłuchaj nagranie</h3>
+        <h3>Odsłuchaj przykładową rozmowę</h3>
+        <p>Krótkie nagranie pokazuje, jak asystent wita klienta, zbiera dane i kończy rozmowę.</p>
         <div class="audio-slot">
           <!-- UZUPEŁNIJ: wstaw ścieżkę do pliku, np. src="demo.mp3" -->
           <audio controls preload="none" src="">
@@ -249,7 +244,7 @@ footer a:hover{color:var(--text)}
         <p class="fine" style="margin-top:10px">[odtwarzacz audio z demo]</p>
       </div>
     </div>
-    <p class="fine"><strong>Uwaga:</strong> rozmowa z numerem demo jest zapisywana, a po drugiej stronie jest asystent AI.</p>
+    <p class="fine"><strong>Uwaga:</strong> nagranie pochodzi z rzeczywistej rozmowy z asystentem AI.</p>
   </div>
 </section>
 
