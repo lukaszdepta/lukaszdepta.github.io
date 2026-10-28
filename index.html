@@ -143,6 +143,8 @@ section{padding-block:clamp(64px,9vw,112px)}
 .cal-b p.when{color:var(--muted)}
 .sample{font-size:14px;color:var(--muted);padding:0 18px 14px}
 
+.audio-note{margin-top:16px;font-size:17px;line-height:1.45;padding:14px 16px;border-radius:10px;background:var(--alt);border-left:6px solid #D9482B;color:var(--ink)}
+
 /* offer */
 .offer{background:var(--yellow);color:var(--on-yellow);border-radius:32px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
 .offer .big{font:800 clamp(110px,18vw,230px)/.8 var(--f-head)}
@@ -288,6 +290,7 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
             <div><b>Odtwórz demo</b><span>około 60–90 sekund</span></div>
           </div>
           <div class="wave" id="wave" aria-hidden="true"></div>
+          <p class="audio-note" id="audioNote" role="alert" hidden></p>
         </div>
         <div class="notes">
           <p>W rozmowie klient zgłasza problem z samochodem, odpowiada na pytania asystenta, a asystent sprawdza kalendarz i zapisuje diagnostykę razem z opisem usterki.</p>
@@ -485,42 +488,57 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
   hs.forEach(function(v,i){h+='<span style="--h:'+Math.round(v*100)+'%;--i:'+i+'"></span>'});
   wv.innerHTML=h;
 
-  /* ===== DEMO: odtwarzanie audio + animacja czatu ===== */
+  /* ===== DEMO: odtwarzanie nagrania + czat zsynchronizowany z dźwiękiem ===== */
   var play=document.getElementById('play'),
       icon=document.getElementById('playIcon'),
       chat=document.getElementById('chat'),
       cal=document.getElementById('cal'),
       note=document.getElementById('note'),
+      audioNote=document.getElementById('audioNote'),
       lines=chat.querySelectorAll('.b'),
-      timers=[],
-      running=false;
+      running=false,
+      failed=false,
+      failMsg='';
 
   var P='<path d="M8 5v14l11-7z"/>', S='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
 
-  /* Audio: plik demo-1.mp3 musi być w tym samym folderze co strona */
-  var audio=new Audio('demo-1.mp3');
-  audio.preload='metadata';
-
-  function clearTimers(){timers.forEach(clearTimeout);timers=[]}
-
+  /* Komunikat formularza */
   function showNote(msg){
     if(!note)return;
-    note.hidden=false;
-    note.textContent=msg;
+    note.hidden=!msg;
+    note.textContent=msg||'';
   }
-  function hideNote(){ if(note) note.hidden=true; }
+  /* Komunikat przy odtwarzaczu (widoczny od razu pod przyciskiem) */
+  function showAudioNote(msg){
+    if(!audioNote)return;
+    audioNote.hidden=!msg;
+    audioNote.textContent=msg||'';
+  }
 
-  function startAnimation(durationMs){
-    clearTimers();
-    var n=lines.length, gap=durationMs/n;
-    lines.forEach(function(l,i){
-      timers.push(setTimeout(function(){l.classList.add('show')},Math.round(i*gap)));
-    });
-    timers.push(setTimeout(function(){cal.classList.add('pop')},Math.round(durationMs*0.9)));
+  /* Plik z nagraniem: ma leżeć w tym samym folderze co index.html.
+     Gdy pierwsza nazwa nie zadziała, strona sprawdza kilka typowych pomyłek w nazwie. */
+  var SRC=['demo-1.mp3','demo-1.MP3','Demo-1.mp3','demo-1.mp3.mp3'],idx=0;
+  var audio=new Audio();
+  audio.preload='auto';
+  audio.src=SRC[0];
+
+  /* Czat pojawia się razem z dźwiękiem: im dłuższa kwestia, tym dłużej trwa */
+  var lens=[],total=0,starts=[];
+  lines.forEach(function(l){var n=l.textContent.length;lens.push(n);total+=n});
+  var acc=0;
+  lens.forEach(function(n){starts.push(acc/total);acc+=n});
+
+  function sync(){
+    if(!running)return;
+    var d=(audio.duration&&isFinite(audio.duration)&&audio.duration>0)?audio.duration:75;
+    var r=audio.currentTime/d;
+    lines.forEach(function(l,i){l.classList.toggle('show',r>=starts[i])});
+    cal.classList.toggle('pop',r>=0.93);
   }
+  audio.addEventListener('timeupdate',sync);
+  audio.addEventListener('playing',sync);
 
   function stop(){
-    clearTimers();
     running=false;
     wv.classList.remove('on');
     chat.classList.remove('run');
@@ -531,54 +549,63 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
     try{audio.pause();audio.currentTime=0}catch(e){}
   }
 
-  audio.addEventListener('ended',function(){
-    timers.push(setTimeout(stop,800));
-  });
+  /* Sprawdza, dlaczego nagranie się nie wczytało, i podaje konkretny powód */
+  function diagnose(){
+    failMsg='Nie mogę odtworzyć nagrania demo-1.mp3. Sprawdź, czy plik leży w tym samym folderze co index.html i czy nazywa się dokładnie demo-1.mp3, bez drugiego ".mp3" na końcu.';
+    try{
+      fetch(SRC[0],{method:'HEAD'}).then(function(r){
+        if(r.ok){
+          failMsg='Plik demo-1.mp3 jest na serwerze, ale przeglądarka nie potrafi go odtworzyć. Zapisz go ponownie jako zwykły MP3 (np. w Audacity albo na cloudconvert.com) i wgraj jeszcze raz.';
+        }else if(r.status===404){
+          failMsg='Na serwerze nie ma pliku demo-1.mp3 obok strony. Wgraj go do tego samego folderu co index.html.';
+        }
+        if(!audioNote.hidden)showAudioNote(failMsg);
+      }).catch(function(){});
+    }catch(e){}
+  }
+
   audio.addEventListener('error',function(){
-    showNote('Nie udało się wczytać demo-1.mp3. Sprawdź, czy plik jest w tym samym folderze co strona i czy nazywa się dokładnie "demo-1.mp3".');
+    if(idx<SRC.length-1){
+      idx++;
+      audio.src=SRC[idx];
+      audio.load();
+      if(running){var p=audio.play();if(p&&p.catch)p.catch(function(){})}
+      return;
+    }
+    failed=true;
+    diagnose();
+    if(running){stop();showAudioNote(failMsg)}
+  });
+
+  audio.addEventListener('ended',function(){
+    setTimeout(stop,1500);
   });
 
   play.addEventListener('click',function(){
     if(running){stop();return}
-    hideNote();
+    showAudioNote('');
+    if(failed){showAudioNote(failMsg);return}
     running=true;
     wv.classList.add('on');
     chat.classList.add('run');
+    cal.classList.remove('pop');
+    lines.forEach(function(l){l.classList.remove('show')});
+    lines[0].classList.add('show');
     icon.innerHTML=S;
     play.setAttribute('aria-label','Zatrzymaj demo');
-
-    var started=false;
-    function begin(ms){ if(started) return; started=true; startAnimation(ms); }
-
-    if(audio.readyState>=1 && audio.duration && isFinite(audio.duration) && audio.duration>0){
-      begin(audio.duration*1000);
-    }else{
-      var onMeta=function(){
-        audio.removeEventListener('loadedmetadata',onMeta);
-        var d=(audio.duration && isFinite(audio.duration) && audio.duration>0)
-              ? audio.duration*1000
-              : (lines.length*3000);
-        begin(d);
-      };
-      audio.addEventListener('loadedmetadata',onMeta);
-      timers.push(setTimeout(function(){
-        audio.removeEventListener('loadedmetadata',onMeta);
-        begin(lines.length*3000);
-      },4000));
-    }
-
+    try{audio.currentTime=0}catch(e){}
     try{
       var pr=audio.play();
-      if(pr && typeof pr.catch==='function'){
-        pr.catch(function(){
-          showNote('Nie udało się odtworzyć demo-1.mp3. Sprawdź, czy plik istnieje w tym samym folderze co strona.');
-          stop();
+      if(pr&&typeof pr.catch==='function'){
+        pr.catch(function(err){
+          if(err&&err.name==='NotAllowedError'){
+            stop();
+            showAudioNote('Przeglądarka zablokowała dźwięk. Kliknij przycisk jeszcze raz.');
+          }
+          /* Inne błędy obsługuje zdarzenie "error" powyżej. */
         });
       }
-    }catch(e){
-      showNote('Nie udało się odtworzyć demo-1.mp3. Sprawdź, czy plik istnieje w tym samym folderze co strona.');
-      stop();
-    }
+    }catch(e){}
   });
   /* ===== /DEMO ===== */
 
