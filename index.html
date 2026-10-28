@@ -1,623 +1,511 @@
-<!doctype html>
-<html lang="pl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asystent głosowy dla ekip remontowych – Łukasz Depta</title>
-<meta name="description" content="Asystent głosowy dla ekip remontowych i małych firm usługowych. Gdy nie możesz odebrać, rozmawia z klientem, zbiera dane, a zgłoszenie dostajesz e-mailem lub na Telegramie.">
-<meta name="theme-color" content="#0e1320">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Halo Warsztat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
 <style>
+/* Layout: warsztatowy szyld. Prosty, jednokolumnowy układ, duże litery, żółty i czarny, ilustracje samochodów. */
 :root{
-  --bg:#0e1320; --bg2:#141b2d; --card:#182138; --line:#26314d;
-  --text:#eef1f8; --muted:#a3adc4; --accent:#ffc629; --accent-ink:#1a1400;
-  --ok:#3ddc97; --danger:#ff5d5d;
-  --radius:18px; --max:1080px;
+  --bg:#FFFFFF; --alt:#F2F3F4; --surface:#FFFFFF; --ink:#1A1A1A; --muted:#575B5F; --line:#DADDE0;
+  --yellow:#FFC20E; --on-yellow:#1A1A1A; --cal:#1A73E8;
+  --wall:#E3E6E8; --door:#C3C8CC; --road:#2B2B2B; --glass:#BFD7E6;
+  --foot-bg:#1A1A1A; --foot-ink:#F2F2F2; --foot-muted:#A9A9A9;
+  --f-head:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: light){
-  :root{
-    --bg:#f6f7fb; --bg2:#ffffff; --card:#ffffff; --line:#e1e5ef;
-    --text:#131a2b; --muted:#566079; --accent:#f5b400; --accent-ink:#1a1400;
-  }
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.6;font-size:17px;
-  -webkit-font-smoothing:antialiased;
-}
-img,audio{max-width:100%}
-a{color:inherit}
-.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
-section{padding:72px 0}
-h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
-h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:12px}
-.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.lead{color:var(--muted);font-size:1.05rem;max-width:62ch}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161616; --alt:#1D1D1D; --surface:#242424; --ink:#F2F2F2; --muted:#ABABAB; --line:#383838;
+  --cal:#8AB4F8; --wall:#2C2F31; --door:#4A4F53; --road:#0E0E0E; --glass:#3C5566; --foot-bg:#0B0B0B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161616; --alt:#1D1D1D; --surface:#242424; --ink:#F2F2F2; --muted:#ABABAB; --line:#383838;
+  --cal:#8AB4F8; --wall:#2C2F31; --door:#4A4F53; --road:#0E0E0E; --glass:#3C5566; --foot-bg:#0B0B0B; color-scheme:dark}
 
-header{
-  position:sticky;top:0;z-index:50;
-  background:color-mix(in srgb,var(--bg) 85%,transparent);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
-.brand{display:flex;align-items:baseline;gap:.3em;font-weight:800;font-size:1.35rem;letter-spacing:-.03em;text-decoration:none;color:var(--text)}
-.brand span{color:var(--accent)}
-.nav nav{display:flex;gap:22px}
-.nav nav a{text-decoration:none;color:var(--muted);font-size:.95rem}
-.nav nav a:hover{color:var(--text)}
-@media(max-width:720px){.nav nav{display:none}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 19px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-head);margin:0;text-wrap:balance}
+h1,h2{text-transform:uppercase;font-weight:800;line-height:.98;letter-spacing:.005em}
+h2{font-size:clamp(38px,5.4vw,64px)}
+h3{font-weight:700;font-size:30px;line-height:1.05}
+p{margin:0}
+mark{background:var(--yellow);color:var(--on-yellow);padding:0 .14em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:6px}
 
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:15px 26px;border-radius:999px;font-weight:700;font-size:1rem;
-  text-decoration:none;border:2px solid transparent;cursor:pointer;
-  transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
-}
-.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 8px 26px -10px var(--accent)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-ghost{border-color:var(--line);color:var(--text);background:transparent}
-.btn-ghost:hover{border-color:var(--accent)}
-.btn-sm{padding:9px 18px;font-size:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:0 30px;border-radius:10px;border:3px solid transparent;
+  font:700 19px/1 var(--f-body);text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.btn-yellow{background:var(--yellow);color:var(--on-yellow)}
+.btn-line{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-dark{background:#1A1A1A;color:var(--yellow)}
 
-.hero{padding:64px 0 56px;position:relative;overflow:hidden}
-.hero::before{
-  content:"";position:absolute;inset:-20% -10% auto auto;width:520px;height:520px;
-  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 28%,transparent),transparent 65%);
-  pointer-events:none;z-index:0;
-}
-.hero-grid{max-width:760px;position:relative;z-index:1}
-.hero h1{font-size:clamp(2rem,6vw,3.5rem);margin-bottom:18px}
-.hero h1 span{color:var(--accent)}
-.hero .lead{margin-bottom:28px;font-size:1.12rem}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:800 30px/1 var(--f-head);text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
+.logo i{width:44px;height:44px;border-radius:10px;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;flex:none}
+.top .btn{min-height:48px;padding:0 22px;font-size:17px}
 
-@media(max-width:860px){.hero{padding-top:40px}}
+/* hero */
+.hero{padding-block:clamp(24px,5vw,56px) 24px}
+.hero h1{font-size:clamp(46px,8.4vw,112px);max-width:12ch}
+.hero .lead{font-size:clamp(20px,2.2vw,25px);max-width:34em;margin-top:28px}
+.hero .free{font-weight:700;font-size:clamp(20px,2.2vw,24px);margin-top:20px}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.me{display:flex;align-items:center;gap:16px;margin-top:32px}
+.avatar{flex:none;width:72px;height:72px;border-radius:50%;background:#1A1A1A;color:var(--yellow);display:grid;place-items:center;
+  font:800 28px/1 var(--f-head);border:4px solid var(--bg);box-shadow:0 0 0 3px var(--yellow);overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.me p{font-size:17px;line-height:1.4;color:var(--muted)}
+.me strong{display:block;color:var(--ink);font:700 24px/1.1 var(--f-head)}
 
-.alt{background:var(--bg2);border-block:1px solid var(--line)}
-.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px;counter-reset:s}
-.steps li{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:22px 20px;counter-increment:s;position:relative;
-}
-.steps li::before{
-  content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;
-  background:var(--accent);color:var(--accent-ink);font-weight:800;margin-bottom:14px;
-}
-.steps li strong{display:block;margin-bottom:4px;font-size:1.02rem}
-.steps li span{color:var(--muted);font-size:.95rem}
-@media(max-width:940px){.steps{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.steps{grid-template-columns:1fr}}
-.note{margin-top:26px;padding:16px 20px;border-left:4px solid var(--accent);background:var(--card);border-radius:0 12px 12px 0;color:var(--muted)}
-.note strong{color:var(--text)}
+.scene{margin-top:40px;background:var(--alt);border-radius:28px;overflow:hidden}
+.scene>svg{display:block;width:100%;height:auto}
+.sign{font:800 40px var(--f-head);letter-spacing:2px}
+.ring{transform-box:fill-box;transform-origin:center;animation:ring 1.6s ease-in-out infinite}
+@keyframes ring{0%,60%,100%{transform:rotate(0)}10%,30%,50%{transform:rotate(-14deg)}20%,40%{transform:rotate(14deg)}}
+.rip{animation:rip 1.6s ease-out infinite;opacity:0}
+.rip.b{animation-delay:.25s}
+@keyframes rip{0%{opacity:0}25%{opacity:1}80%,100%{opacity:0}}
+.bob{animation:bob 1.1s ease-in-out infinite}
+.scene>svg>svg:nth-of-type(2) .bob{animation-delay:-.5s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2px)}}
 
-/* ===== DEMO / PLAYER ===== */
-.demo-box{
-  margin-top:30px;background:var(--card);border:1px solid var(--line);
-  border-radius:24px;padding:32px;
-}
-.demo-box h3{font-size:1.15rem;margin-bottom:10px}
-.demo-box > p{color:var(--muted);margin-bottom:20px}
+/* sections */
+section{padding-block:clamp(64px,9vw,112px)}
+.alt{background:var(--alt)}
+.head{margin-bottom:44px;display:grid;gap:18px;max-width:780px}
+.head p{font-size:clamp(20px,2.1vw,23px);color:var(--muted);max-width:34em}
 
-.players{display:grid;gap:14px;margin-top:8px}
+/* problem */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:30px;min-width:0}
+.box.good{border-color:var(--yellow)}
+.box .tag{display:inline-block;font:700 15px/1 var(--f-body);padding:8px 12px;border-radius:8px;background:var(--alt);margin-bottom:16px}
+.box.good .tag{background:var(--yellow);color:var(--on-yellow)}
+.box h3{margin-bottom:12px}
+.box p{color:var(--muted)}
+.box .res{display:flex;gap:12px;align-items:center;margin-top:22px;font-weight:600;font-size:17px;line-height:1.3}
+.box .res svg{flex:none}
+.pull{margin-top:48px;font:800 clamp(34px,5vw,60px)/1 var(--f-head);text-transform:uppercase}
 
-.player{
-  position:relative;
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:18px;
-  align-items:flex-start;
-  background:linear-gradient(160deg,var(--bg2),color-mix(in srgb,var(--card) 70%,var(--bg2)));
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px 20px;
-  transition:border-color .25s ease,box-shadow .35s ease,transform .2s ease;
-}
-.player:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
-.player.is-playing{
-  border-color:var(--accent);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb,var(--accent) 55%,transparent),
-    0 20px 50px -22px color-mix(in srgb,var(--accent) 60%,transparent);
-}
+.road{position:relative;height:96px;margin-top:56px;overflow:hidden}
+.road::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:var(--road);
+  background-image:repeating-linear-gradient(90deg,var(--yellow) 0 36px,transparent 36px 72px);background-size:100% 3px;background-repeat:no-repeat;background-position:0 6px}
+.track{position:absolute;left:0;bottom:12px;display:flex;gap:70px;width:max-content;animation:drive 46s linear infinite}
+.track .car{width:190px;flex:none}
+@keyframes drive{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.spin{transform-box:fill-box;transform-origin:center;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* Play/pause button */
-.player-btn{
-  position:relative;
-  width:54px;height:54px;flex:none;border:none;border-radius:50%;
-  background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;cursor:pointer;
-  transition:transform .15s ease,background .2s ease;
-  -webkit-tap-highlight-color:transparent;
-  margin-top:2px;
-}
-.player-btn:hover{transform:scale(1.06)}
-.player-btn:active{transform:scale(.96)}
-.player-btn svg{width:22px;height:22px;display:block}
-.player-btn .icon-pause{display:none}
-.player.is-playing .player-btn .icon-play{display:none}
-.player.is-playing .player-btn .icon-pause{display:block}
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.steps li{background:var(--surface);border-radius:20px;padding:30px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start;border:2px solid var(--line)}
+.num{width:60px;height:60px;border-radius:50%;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;font:800 34px/1 var(--f-head)}
+.steps h3{margin:4px 0 10px}
+.steps p{color:var(--muted);font-size:18px}
 
-/* pulse ring */
-.player-btn::before{
-  content:"";position:absolute;inset:-4px;border-radius:50%;
-  border:2px solid var(--accent);opacity:0;pointer-events:none;
-}
-.player.is-playing .player-btn::before{animation:pulse 1.9s ease-out infinite}
-@keyframes pulse{
-  0%{opacity:.65;transform:scale(.9)}
-  100%{opacity:0;transform:scale(1.55)}
-}
+/* demo */
+.demo-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,4vw,56px);align-items:start}
+.player{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:26px}
+.pbar{display:flex;align-items:center;gap:18px}
+.play{flex:none;width:76px;height:76px;border-radius:50%;border:0;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;cursor:pointer;transition:transform .15s}
+.play:hover{transform:scale(1.07)}
+.pbar b{display:block;font:800 30px/1 var(--f-head);text-transform:uppercase}
+.pbar span{color:var(--muted);font-size:17px}
+.wave{display:flex;align-items:center;gap:4px;height:56px;margin-top:22px}
+.wave span{flex:1;min-width:2px;max-width:7px;background:var(--ink);border-radius:4px;height:var(--h);opacity:.85}
+.wave.on span{background:var(--yellow);animation:bar 1s ease-in-out infinite;animation-delay:calc(var(--i)*-.07s)}
+@keyframes bar{50%{transform:scaleY(.3)}}
+.notes{display:grid;gap:14px;margin-top:22px;color:var(--muted);font-size:17px}
+.notes p{padding-left:16px;border-left:4px solid var(--yellow)}
+.chat{display:grid;gap:12px}
+.b{max-width:90%;padding:12px 18px;border-radius:18px;font-size:18px;line-height:1.45;transition:opacity .3s,transform .3s}
+.b small{display:block;font:700 13px/1 var(--f-body);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;opacity:.7}
+.b.ai{background:var(--yellow);color:var(--on-yellow);border-bottom-left-radius:4px}
+.b.cl{background:var(--surface);border:2px solid var(--line);justify-self:end;border-bottom-right-radius:4px}
+.chat.run .b{opacity:.2;transform:translateY(6px)}
+.chat.run .b.show{opacity:1;transform:none}
+.cal{margin-top:20px;background:var(--surface);border:2px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.cal.pop{transform:scale(1.02);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.cal-h{display:flex;justify-content:space-between;gap:10px;padding:12px 18px;background:var(--alt);font:700 15px/1.2 var(--f-body)}
+.cal-h span{color:var(--cal)}
+.cal-b{display:flex;gap:14px;padding:18px}
+.cal-b i{flex:none;width:6px;border-radius:3px;background:var(--cal)}
+.cal-b strong{display:block;font:700 26px/1.1 var(--f-head)}
+.cal-b p{font-size:17px;line-height:1.4;margin-top:6px}
+.cal-b p.when{color:var(--muted)}
+.sample{font-size:14px;color:var(--muted);padding:0 18px 14px}
 
-/* Middle body */
-.player-body{min-width:0;display:grid;gap:10px}
-.player-info{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.player-title{font-weight:600;font-size:1rem;color:var(--text)}
-.player-time{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+/* offer */
+.offer{background:var(--yellow);color:var(--on-yellow);border-radius:32px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.offer .big{font:800 clamp(110px,18vw,230px)/.8 var(--f-head)}
+.offer .big small{display:block;font:700 clamp(24px,3vw,34px)/1.1 var(--f-head);margin-top:16px;text-transform:uppercase}
+.offer .price{margin-top:24px;font-weight:600;font-size:18px;line-height:1.45}
+.offer h3{font-size:clamp(30px,3.6vw,42px);text-transform:uppercase;margin-bottom:20px}
+.ticks{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px}
+.ticks li{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:19px;line-height:1.35}
+.ticks svg{flex:none;margin-top:3px}
+.offer>p.intro{grid-column:1/-1;font-size:clamp(19px,2vw,22px);max-width:36em;font-weight:500}
 
-.player-desc{
-  color:var(--muted);
-  font-size:.92rem;
-  line-height:1.5;
-  margin:0;
-  max-width:62ch;
-}
+/* whom */
+.whom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start}
+.whom ul{list-style:none;margin:16px 0 0;padding:0}
+.whom li{display:flex;gap:14px;padding:16px 0;border-bottom:2px solid var(--line);font-size:20px;line-height:1.4}
+.whom li:first-child{border-top:2px solid var(--line)}
+.whom li i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;margin-top:1px}
+.parked{display:flex;gap:clamp(8px,2vw,28px);justify-content:center;margin-top:56px;align-items:flex-end}
+.parked .car{flex:1 1 0;min-width:0;max-width:300px}
 
-/* Progress bar */
-.player-bar{
-  position:relative;height:8px;border-radius:999px;
-  background:color-mix(in srgb,var(--text) 12%,transparent);
-  cursor:pointer;overflow:hidden;
-  touch-action:none;
-  margin-top:2px;
-}
-.player-bar::before{
-  content:"";position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.15));
-  pointer-events:none;
-}
-.player-fill{
-  position:absolute;left:0;top:0;bottom:0;width:0%;
-  border-radius:999px;
-  background:linear-gradient(90deg,
-    color-mix(in srgb,var(--accent) 70%,#ff9a00),
-    var(--accent) 60%,
-    color-mix(in srgb,var(--accent) 60%,#fff));
-  transition:width .1s linear;
-  overflow:hidden;
-}
-.player.is-playing .player-fill::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.55) 50%,transparent 100%);
-  transform:translateX(-100%);
-  animation:shimmer 1.7s linear infinite;
-}
-@keyframes shimmer{to{transform:translateX(100%)}}
-
-/* little dot thumb */
-.player-fill::before{
-  content:"";position:absolute;right:-1px;top:50%;width:12px;height:12px;
-  border-radius:50%;background:#fff;transform:translate(50%,-50%);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 55%,transparent);
-  opacity:0;transition:opacity .2s ease;
-}
-.player:hover .player-fill::before,
-.player.is-playing .player-fill::before{opacity:1}
-
-/* Equalizer */
-.player-viz{
-  display:flex;align-items:flex-end;gap:3px;height:26px;width:34px;flex:none;
-  opacity:.55;transition:opacity .25s ease;
-  align-self:center;
-}
-.player.is-playing .player-viz{opacity:1}
-.player-viz span{
-  display:block;width:3px;height:6px;border-radius:2px;
-  background:var(--accent);
-  transform-origin:bottom;
-}
-.player.is-playing .player-viz span{animation:eq .95s ease-in-out infinite}
-.player-viz span:nth-child(1){animation-delay:0s}
-.player-viz span:nth-child(2){animation-delay:.15s}
-.player-viz span:nth-child(3){animation-delay:.3s}
-.player-viz span:nth-child(4){animation-delay:.45s}
-.player-viz span:nth-child(5){animation-delay:.6s}
-@keyframes eq{
-  0%,100%{height:6px}
-  50%{height:26px}
-}
-
-.fine{font-size:.85rem;color:var(--muted);margin-top:20px}
-
-@media(max-width:640px){
-  .player{grid-template-columns:auto 1fr;gap:14px;padding:16px}
-  .player-viz{display:none}
-  .demo-box{padding:24px 18px}
-}
-
-.req-list{list-style:none;display:grid;gap:14px;margin-top:24px;counter-reset:req;max-width:760px}
-.req-list li{position:relative;padding-left:44px;counter-increment:req;color:var(--muted)}
-.req-list li::before{
-  content:counter(req);position:absolute;left:0;top:1px;
-  display:grid;place-items:center;width:30px;height:30px;border-radius:50%;
-  background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);
-  font-weight:800;font-size:.85rem;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
-}
-.req-list strong{color:var(--text)}
-
-.trial{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:start;margin-top:30px}
-.checks{list-style:none;display:grid;gap:14px}
-.checks li{display:flex;gap:12px;align-items:flex-start}
-.checks li::before{
-  content:"✓";flex:none;width:26px;height:26px;border-radius:50%;
-  background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--ok);
-  display:grid;place-items:center;font-weight:800;font-size:.9rem;margin-top:1px;
-}
-.price{
-  background:linear-gradient(160deg,var(--card),var(--bg2));
-  border:1px solid var(--line);border-radius:24px;padding:30px;text-align:center;
-}
-.price small{color:var(--muted);display:block}
-.price .amount{font-size:3rem;font-weight:800;line-height:1.1;margin:8px 0}
-.price .amount span{font-size:1.1rem;font-weight:600;color:var(--muted)}
-.price p{color:var(--muted);margin-bottom:20px}
-@media(max-width:820px){.trial{grid-template-columns:1fr}}
-
-.about{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:center;margin-top:10px}
-.photo{
-  width:200px;height:200px;border-radius:50%;border:3px solid var(--accent);
-  background:var(--card);display:grid;place-items:center;text-align:center;
-  color:var(--muted);font-size:.85rem;overflow:hidden;padding:0;
-}
-.photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;margin:0;border-radius:50%}
-.about p{color:var(--muted);margin-top:12px}
-.about p:first-of-type{color:var(--text);font-size:1.1rem}
-@media(max-width:640px){
-  .about{grid-template-columns:1fr;justify-items:center;text-align:center}
-}
-
-.faq{margin-top:26px;display:grid;gap:10px;max-width:760px}
-details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0 20px;transition:border-color .2s}
-details[open]{border-color:var(--accent)}
-summary{
-  cursor:pointer;list-style:none;padding:18px 0;font-weight:600;display:flex;
-  justify-content:space-between;gap:16px;align-items:center;
-}
+/* faq */
+details{border-bottom:2px solid var(--line)}
+details:first-of-type{border-top:2px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 0;font:700 clamp(22px,2.4vw,28px)/1.15 var(--f-head)}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:1.5rem;color:var(--accent);line-height:1;flex:none;transition:transform .2s}
+summary::after{content:"+";flex:none;width:40px;height:40px;border-radius:50%;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;font:700 28px/1 var(--f-body);transition:transform .2s}
 details[open] summary::after{transform:rotate(45deg)}
-details p{color:var(--muted);padding-bottom:18px}
+details p{padding:0 56px 26px 0;color:var(--muted);max-width:40em}
 
-.contact-card{
-  margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:24px;
-  padding:32px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:center;
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start}
+.contact .lead{color:var(--muted);font-size:clamp(20px,2.1vw,23px);margin-top:22px;max-width:30em}
+.contact-info{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:8px;font-size:18px;line-height:1.5}
+.contact-info b{color:var(--ink)}
+.contact-info a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:2px solid var(--yellow);word-break:break-word}
+.contact-info a:hover{color:var(--ink)}
+form{display:grid;gap:18px;background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:clamp(22px,3.5vw,36px)}
+label{display:grid;gap:8px;font:700 17px/1.2 var(--f-body)}
+label em{font-style:normal;font-weight:400;color:var(--muted)}
+input,textarea{font:500 20px/1.2 var(--f-body);padding:16px 18px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%;min-width:0;font-family:var(--f-body)}
+textarea{resize:vertical;min-height:100px}
+input:focus,textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px var(--yellow)}
+.note{font-size:17px;padding:14px 16px;border-radius:10px;background:var(--alt);border-left:6px solid var(--yellow)}
+
+footer{background:var(--foot-bg);color:var(--foot-ink);padding-block:56px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px}
+footer .logo{color:var(--foot-ink)}
+footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
+.col{font-size:17px;line-height:1.9;color:var(--foot-muted)}
+.col a{color:var(--foot-muted);text-decoration:none}
+.col a:hover{color:var(--yellow)}
+.col strong{color:var(--foot-ink)}
+
+@media (max-width:900px){
+  .demo-grid,.whom,.contact,.offer{grid-template-columns:minmax(0,1fr)}
 }
-.contact-card h3{font-size:1.4rem;margin-bottom:8px}
-.contact-list{list-style:none;display:grid;gap:6px;color:var(--muted)}
-.contact-list b{color:var(--text)}
-.contact-list a{color:var(--accent);text-decoration:none;font-weight:600;word-break:break-word}
-.contact-list a:hover{text-decoration:underline}
-@media(max-width:560px){.contact-card{padding:24px 20px}}
-
-footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between}
-footer a{color:var(--muted)}
-footer a:hover{color:var(--text)}
-
-@media(max-width:600px){section{padding:54px 0}body{font-size:16px}.btn{width:100%}.nav .btn{width:auto}}
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *{transition:none!important}
-  .player.is-playing .player-btn::before,
-  .player.is-playing .player-fill::after,
-  .player.is-playing .player-viz span{animation:none!important}
+@media (max-width:720px){
+  body{font-size:18px}
+  .two,.steps{grid-template-columns:minmax(0,1fr)}
+  .top .btn{display:none}
+  .cta .btn{flex:1 1 100%}
+  .steps li{grid-template-columns:minmax(0,1fr)}
+  details p{padding-right:0}
+  .track .car{width:150px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
-</head>
-<body>
 
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Łukasz Depta – strona główna">Łukasz <span>Depta</span></a>
-    <nav>
-      <a href="#jak">Jak to działa</a>
-      <a href="#demo">Demo</a>
-      <a href="#potrzebuje">Co potrzebuję</a>
-      <a href="#test">Test 14 dni</a>
-      <a href="#faq">Pytania</a>
-    </nav>
-    <a class="btn btn-primary btn-sm" href="#demo">Posłuchaj demo</a>
-  </div>
-</header>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#top" aria-label="Halo Warsztat"><i aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .3l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .3-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></i>Halo Warsztat</a>
+    <a class="btn btn-line" href="#kontakt">Umów prezentację</a>
+  </header>
 
-<main id="top">
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <h1>Nie odbierasz telefonu na budowie? <span>Odbierze go asystent.</span></h1>
-      <p class="lead">Asystent głosowy dla ekip remontowych i małych firm usługowych. Gdy nie możesz odebrać, rozmawia z klientem, zbiera imię, miasto i osiedle oraz opis zlecenia, a zgłoszenie dostajesz e-mailem lub na Telegramie.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#demo">▶ Posłuchaj demo</a>
-      </div>
+  <div class="hero" id="top">
+    <h1>Więcej odebranych telefonów. <mark>Mniej straconych klientów.</mark></h1>
+    <p class="lead">Asystent AI odbiera telefony, gdy mechanicy są zajęci, zbiera informacje o problemie z autem, sprawdza kalendarz i umawia klientów na diagnostykę.</p>
+    <p class="free">Przetestuj przez pierwszy miesiąc za darmo.</p>
+    <div class="cta">
+      <a class="btn btn-yellow" href="#kontakt">Umów prezentację</a>
+      <a class="btn btn-line" href="#demo">Posłuchaj demo</a>
     </div>
+    <div class="me">
+      <div class="avatar" id="avatar" role="img" aria-label="Łukasz Depta">ŁD</div>
+      <p><strong>Łukasz Depta</strong>Sam pokażę Ci, jak asystent działa w Twoim warsztacie.</p>
+    </div>
+    <div class="scene" id="scene" role="img" aria-label="Warsztat samochodowy, z którego dzwoni telefon, a przed nim stoją dwa samochody"></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <h2>Nie każdy telefon można odebrać podczas naprawy</h2>
+      <p>Pracujesz przy samochodzie, masz zajęte ręce, a telefon dzwoni. Nie zawsze możesz przerwać naprawę, żeby porozmawiać z kolejnym klientem.</p>
+    </div>
+    <div class="two">
+      <article class="box">
+        <span class="tag">Bez asystenta</span>
+        <h3>Klient dzwoni gdzie indziej</h3>
+        <p>Klient może spróbować dodzwonić się do innego warsztatu. Możesz stracić potencjalne zlecenie, zanim w ogóle dowiesz się, czego potrzebował.</p>
+        <div class="res"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Nieodebrane połączenie, bez informacji o sprawie</div>
+      </article>
+      <article class="box good">
+        <span class="tag">Z asystentem</span>
+        <h3>Wiesz, w jakiej sprawie dzwonił klient</h3>
+        <p>Asystent odbiera, zbiera podstawowe informacje o aucie i usterce, sprawdza kalendarz i wpisuje termin diagnostyki. Ty pracujesz dalej.</p>
+        <div class="res"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg>Odebrane, termin i opis usterki zapisane w kalendarzu</div>
+      </article>
+    </div>
+    <p class="pull">Właśnie w tym pomaga <mark>asystent AI.</mark></p>
+    <div class="road" id="road" aria-hidden="true"><div class="track" id="track"></div></div>
   </div>
 </section>
 
-<section id="jak" class="alt">
+<section class="alt">
   <div class="wrap">
-    <span class="eyebrow">Jak to działa</span>
-    <h2>Cztery kroki, zero komplikacji</h2>
+    <div class="head"><h2>Jak działa asystent AI?</h2></div>
     <ol class="steps">
-      <li><strong>Klient dzwoni</strong><span>Jesteś na budowie i nie odbierasz.</span></li>
-      <li><strong>Przejmuje asystent</strong><span>Po kilku sygnałach połączenie przechodzi do asystenta. Informuje klienta, że jest asystentem AI, a rozmowa jest nagrywana.</span></li>
-      <li><strong>Zbiera dane</strong><span>Pyta o rodzaj prac, miasto i osiedle, termin startu oraz imię. Nie podaje cen i nie obiecuje terminów.</span></li>
-      <li><strong>Dostajesz zgłoszenie</strong><span>Z danymi klienta, e-mailem lub na Telegramie. Oddzwaniasz, kiedy możesz.</span></li>
+      <li><span class="num">1</span><div><h3>Odbiera połączenia</h3><p>Gdy klient dzwoni, asystent prowadzi z nim naturalną rozmowę, nawet gdy jesteś zajęty pracą przy samochodzie.</p></div></li>
+      <li><span class="num">2</span><div><h3>Zbiera informacje o aucie</h3><p>Pyta o model samochodu, objawy usterki i powód kontaktu, abyś wiedział, w jakiej sprawie dzwonił klient.</p></div></li>
+      <li><span class="num">3</span><div><h3>Umawia diagnostykę w kalendarzu</h3><p>Sprawdza wolne terminy w kalendarzu Google i zapisuje wizytę razem z opisem usterki. Nie zastępuje mechanika i nie obiecuje naprawy bez sprawdzenia samochodu.</p></div></li>
+      <li><span class="num">4</span><div><h3>Wspiera Twój warsztat</h3><p>Ty skupiasz się na naprawach, a asystent obsługuje połączenia, na które nie zawsze masz czas.</p></div></li>
     </ol>
-    <p class="note"><strong>Działa tylko na połączenia, których sam nie odebrałeś.</strong> Wyłączasz je jednym kodem w telefonie, kiedy chcesz.</p>
   </div>
 </section>
 
 <section id="demo">
   <div class="wrap">
-    <span class="eyebrow">Demo</span>
-    <h2>Posłuchaj, jak to brzmi</h2>
-    <p class="lead">Przykładowa rozmowa z asystentem. Nagranie jest testowe, klienta gram ja. Nazwa firmy i imię szefa są przykładowe.</p>
-
-    <div class="demo-box">
-      <div class="players">
-
-        <!-- Nagranie 1 -->
-        <div class="player" data-src="demo-1.mp3" data-title="Remont łazienki">
-          <button class="player-btn" type="button" aria-label="Odtwórz nagranie: Remont łazienki">
-            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.29-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>
-          </button>
-
-          <div class="player-body">
-            <div class="player-info">
-              <span class="player-title">Remont łazienki</span>
-              <span class="player-time">0:00 / 0:00</span>
-            </div>
-            <p class="player-desc">Asystent odbiera, przedstawia się jako AI i mówi, że rozmowa jest nagrywana. Zbiera rodzaj prac, miasto i osiedle, termin startu oraz imię. Na końcu podsumowuje zgłoszenie jednym zdaniem. Całość trwa mniej niż 2 minuty.</p>
-            <div class="player-bar" role="slider" tabindex="0" aria-label="Postęp nagrania: Remont łazienki">
-              <div class="player-fill"></div>
-            </div>
+    <div class="head">
+      <h2>Zobacz, jak działa w praktyce</h2>
+      <p>Zamiast wierzyć nam na słowo, posłuchaj przykładowej rozmowy z asystentem.</p>
+    </div>
+    <div class="demo-grid">
+      <div>
+        <div class="player">
+          <div class="pbar">
+            <button class="play" id="play" type="button" aria-label="Odtwórz demo"><svg id="playIcon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+            <div><b>Odtwórz demo</b><span>około 60–90 sekund</span></div>
           </div>
-
-          <div class="player-viz" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
+          <div class="wave" id="wave" aria-hidden="true"></div>
         </div>
-
-      </div>
-
-      <p class="fine"><strong>Uwaga:</strong> W prawdziwej konfiguracji asystent używa nazwy Twojej firmy, Twojego imienia i Twoich zasad dotyczących wyceny i oddzwonienia.</p>
-    </div>
-  </div>
-</section>
-
-<section id="potrzebuje">
-  <div class="wrap">
-    <span class="eyebrow">Co potrzebuję od Ciebie</span>
-    <h2>Kilka informacji, resztą zajmuję się ja</h2>
-    <p class="lead">Odpowiedzi zajmą Ci około 10 minut. Ja ustawiam asystenta do 3 dni roboczych od otrzymania odpowiedzi. Od Ciebie potrzebuję odpowiedzi na te pytania (głosówką albo tekstem):</p>
-    <ol class="req-list">
-      <li><strong>Operator i numer do przekierowania.</strong> U jakiego jesteś operatora (Orange, Play, Plus, T-Mobile, inny) i jaki numer przekierować? Od operatora zależy kod włączający przekierowanie.</li>
-      <li><strong>Gdzie wysyłać zgłoszenia.</strong> E-mail (jaki adres) czy Telegram?</li>
-      <li><strong>Nazwa firmy i imię.</strong> Jak asystent ma przedstawiać firmę i jak ma mówić o Tobie (np. „pan Marek”)?</li>
-      <li><strong>Zakres prac.</strong> Wymień wszystko, co wykonujesz. Czego nie wymienisz, tego asystent powie klientowi, że firma nie robi, więc podaj pełną listę.</li>
-      <li><strong>Obszar działania.</strong> Gdzie jeździsz? I czy chcesz dostawać zgłoszenia spoza obszaru, np. przy dużych zleceniach (tak/nie)?</li>
-      <li><strong>Dni i godziny pracy.</strong></li>
-      <li><strong>Odpowiedź o cenę.</strong> Co asystent ma mówić, gdy klient pyta o koszt? Zwykle: „wycenę przygotowuje szef po oględzinach”. Asystent nie podaje kwot ani widełek.</li>
-      <li><strong>Odpowiedź o oddzwonieniu.</strong> Co mówić klientowi o oddzwonieniu w godzinach pracy i poza nimi? Asystent nie obiecuje konkretnej godziny.</li>
-    </ol>
-    <p class="note"><strong>Czego nie potrzebuję:</strong> dostępu do Twojego kalendarza, kont, haseł ani danych Twoich klientów z innych źródeł. Potrzebne jest tylko przekierowanie połączeń nieodebranych, które włączasz kodem w telefonie.</p>
-    <p class="note"><strong>Zanim ruszymy:</strong> przygotowuję konfigurację na podstawie Twoich odpowiedzi i pokazuję Ci ją do sprawdzenia. Potem akceptujesz krótki regulamin i umowę powierzenia danych, odpisując AKCEPTUJĘ. Dopiero wtedy włączasz przekierowanie.</p>
-  </div>
-</section>
-
-<section id="test" class="alt">
-  <div class="wrap">
-    <span class="eyebrow">Darmowy test</span>
-    <h2>Darmowy test 14 dni</h2>
-    <p class="lead">Dopiero zaczynam i szukam kilku ekip remontowych do darmowego testu.</p>
-    <div class="trial">
-      <ul class="checks">
-        <li>14 dni za darmo, bez zobowiązań</li>
-        <li>Od Ciebie: około 10 minut na odpowiedzi na kilka pytań. Ja ustawiam asystenta do 3 dni roboczych.</li>
-        <li>Wyłączysz usługę w każdej chwili</li>
-        <li>Po 14 dniach pokazuję, ile zgłoszeń przechwycił asystent, a Ty decydujesz, czy zostajesz</li>
-      </ul>
-      <div class="price">
-        <small>Jeśli zostaniesz</small>
-        <div class="amount">149 zł <span>/ miesiąc</span></div>
-        <p>Stała kwota, bez dodatkowych opłat. Szczegóły płatnej wersji ustalamy po teście.</p>
-        <a class="btn btn-primary" href="#kontakt">Napisz do mnie</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="kim">
-  <div class="wrap">
-    <span class="eyebrow">Kim jestem</span>
-    <h2>Kto za tym stoi</h2>
-    <div class="about">
-      <div class="photo">
-        <img src="łukasz.jpg" alt="Łukasz Depta">
+        <div class="notes">
+          <p>W rozmowie klient zgłasza problem z samochodem, odpowiada na pytania asystenta, a asystent sprawdza kalendarz i zapisuje diagnostykę razem z opisem usterki.</p>
+          <p>Demo przedstawia przykładową rozmowę. Dostępność funkcji umawiania wizyt zależy od konfiguracji i integracji systemu.</p>
+        </div>
       </div>
       <div>
-        <p>Cześć, jestem Łukasz Depta. Buduję asystentów głosowych, którzy odbierają telefony w małych firmach usługowych.</p>
-        <p>Pracuję zdalnie, całość działa przez przekierowanie telefonu, więc nie muszę nigdzie przyjeżdżać. To nowa usługa i właśnie dlatego testuję ją za darmo z kilkoma ekipami remontowymi. Odsłucham każde nagrane połączenie w pierwszych dniach testu i będę reagować na uwagi.</p>
+        <div class="chat" id="chat" aria-label="Zapis przykładowej rozmowy">
+          <div class="b ai"><small>Asystent</small>Dzień dobry, tu asystent AI firmy. Rozmowa jest nagrywana. W czym mogę pomóc?</div>
+          <div class="b cl"><small>Klient</small>Dzień dobry, w moim oplu cały czas coś stuka i olej ciągnie.</div>
+          <div class="b ai"><small>Asystent</small>Rozumiem. Stuka i zużywa olej. Najlepiej przyjechać na diagnozę, sprawdzimy, co się dzieje. Jaki to model Opla i od kiedy to się dzieje?</div>
+          <div class="b cl"><small>Klient</small>Opel Astra, rocznik około 2000, i dzieje się tak od kilku tygodni. Nawet nie wiem czemu.</div>
+          <div class="b ai"><small>Asystent</small>Jasne. Zapisuję: Opel Astra, rocznik około 2000, stukanie i zużywanie oleju od kilku tygodni. Na kiedy chciałby Pan przyjechać?</div>
+          <div class="b cl"><small>Klient</small>Kiedy macie wolne terminy?</div>
+          <div class="b ai"><small>Asystent</small>Chwileczkę, sprawdzam kalendarz. Mamy wolne w środę 28 października po 10:00 albo w czwartek 29 października o 14:30.</div>
+          <div class="b cl"><small>Klient</small>To niech będzie czwartek, po 14:00.</div>
+          <div class="b ai"><small>Asystent</small>Jasne. Potwierdzam diagnostykę Opla Astry w czwartek, 29 października, o 14:30. Czy wszystko się zgadza?</div>
+          <div class="b cl"><small>Klient</small>Zgadza się, dziękuję bardzo.</div>
+        </div>
+        <div class="cal" id="cal">
+          <div class="cal-h">Kalendarz Google <span>Nowy wpis</span></div>
+          <div class="cal-b"><i></i><div>
+            <strong>Diagnostyka: Opel Astra, rocznik ok. 2000</strong>
+            <p class="when">Czwartek, 29 października, 14:30</p>
+            <p>Stukanie i zużywanie oleju od kilku tygodni.</p>
+          </div></div>
+          <p class="sample">Przykład. Dane z przykładowej rozmowy.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="faq" class="alt">
+<section>
   <div class="wrap">
-    <span class="eyebrow">FAQ</span>
-    <h2>Najczęstsze pytania</h2>
-    <div class="faq">
-      <details>
-        <summary>Czy klient będzie wiedział, że rozmawia z AI?</summary>
-        <p>Tak. Asystent informuje o tym na początku rozmowy i mówi, że rozmowa jest nagrywana.</p>
-      </details>
-      <details>
-        <summary>Co z danymi moich klientów?</summary>
-        <p>Dane z rozmów trafiają do Ciebie. Przetwarzają je tylko dostawcy techniczni wymienieni w umowie powierzenia, a nagrania są usuwane po 30 dniach.</p>
-      </details>
-      <details>
-        <summary>Co jeśli asystent coś źle zrozumie?</summary>
-        <p>Odsłuchuję nagrania, poprawiam konfigurację, a Ty możesz wyłączyć usługę w każdej chwili.</p>
-      </details>
-      <details>
-        <summary>Czy muszę zmieniać numer albo kupować sprzęt?</summary>
-        <p>Nie. Potrzebne jest tylko przekierowanie połączeń nieodebranych, które włączasz kodem w telefonie.</p>
-      </details>
-      <details>
-        <summary>Czy asystent podaje ceny?</summary>
-        <p>Nie. Asystent nie podaje cen, wycen ani widełek. Na pytanie o koszt mówi, że wycenę przygotowujesz Ty (np. po oględzinach). Wycenę zawsze robisz Ty.</p>
-      </details>
-      <details>
-        <summary>Co jeśli klient zadzwoni w sprawie czegoś, czego nie robię?</summary>
-        <p>Asystent odpowiada tylko w zakresie prac, który ustalasz. Jeśli klient pyta o coś spoza zakresu, informuje, że firma tego nie wykonuje.</p>
-      </details>
-      <details>
-        <summary>A co ze zleceniami spoza mojego obszaru?</summary>
-        <p>Sam decydujesz. Asystent może przyjąć zgłoszenie i oznaczyć je jako spoza obszaru, a Ty wybierasz, czy chcesz je zrealizować.</p>
-      </details>
-      <details>
-        <summary>Czy dostanę gwarancję, że każdy klient zostanie obsłużony?</summary>
-        <p>Nie. To wsparcie, a nie gwarancja: asystent zbiera zgłoszenia, a oddzwaniasz Ty.</p>
-      </details>
+    <div class="offer">
+      <p class="intro">Chcę umożliwić warsztatom sprawdzenie rozwiązania w praktyce, bez konieczności podejmowania decyzji na podstawie samej prezentacji.</p>
+      <div>
+        <div class="big">0 zł<small>Przetestuj asystenta przez miesiąc za darmo</small></div>
+        <p class="price">Po bezpłatnym miesiącu usługa kosztuje 300 zł miesięcznie. Warunki rezygnacji i ewentualne koszty dodatkowe ustalamy jasno przed rozpoczęciem testu.</p>
+      </div>
+      <div>
+        <h3>Po co kupować w ciemno, skoro możesz najpierw sprawdzić, jak to działa?</h3>
+        <ul class="ticks">
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Pierwszy miesiąc korzystania za 0 zł.</li>
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sprawdzisz, jak asystent obsługuje połączenia.</li>
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Rzadziej przerwiesz pracę, żeby odebrać telefon.</li>
+          <li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Dowiesz się więcej o klientach, którzy się kontaktowali.</li>
+        </ul>
+        <a class="btn btn-dark" href="#kontakt">Chcę przetestować asystenta</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="kontakt">
+<section class="alt">
   <div class="wrap">
-    <span class="eyebrow">Kontakt</span>
-    <h2>Porozmawiajmy</h2>
-    <div class="contact-card">
+    <div class="whom">
       <div>
-        <h3>Łukasz Depta</h3>
-        <ul class="contact-list">
-          <li><b>WhatsApp:</b> <a href="https://wa.me/48732530024">+48 732 530 024</a></li>
-          <li><b>E-mail:</b> <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a></li>
+        <h2>Dla jakich warsztatów jest to rozwiązanie?</h2>
+        <p style="color:var(--muted);font-size:21px;margin-top:22px;max-width:28em">Asystent jest przeznaczony przede wszystkim dla niezależnych warsztatów samochodowych, w których mechanicy często nie mogą odebrać telefonu podczas pracy.</p>
+      </div>
+      <div>
+        <p style="font-weight:700;font-size:21px">Sprawdzi się szczególnie wtedy, gdy:</p>
+        <ul>
+          <li><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></i>właściciel sam zajmuje się naprawami i obsługą klientów,</li>
+          <li><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></i>telefony przychodzą w trakcie pracy,</li>
+          <li><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></i>klienci dzwonią z pytaniami o usterki i terminy,</li>
+          <li><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></i>chcesz sprawdzić, czy lepsza obsługa połączeń pomoże Ci zdobywać dodatkowe zlecenia.</li>
         </ul>
       </div>
-      <a class="btn btn-primary" href="https://wa.me/48732530024">Napisz na WhatsApp</a>
     </div>
+    <div class="parked" id="parked" aria-hidden="true"></div>
   </div>
 </section>
 
-</main>
+<section>
+  <div class="wrap" style="max-width:880px">
+    <div class="head" style="margin-bottom:32px"><h2>Najczęstsze pytania</h2></div>
+    <details open><summary>Czy asystent zastępuje pracownika?</summary><p>Nie. Jego zadaniem jest wspierać warsztat w obsłudze telefonów, gdy ludzie są zajęci.</p></details>
+    <details><summary>Czy rozpoznaje usterki samochodu?</summary><p>Zbiera informacje od klienta, ale nie zastępuje diagnostyki mechanika i nie powinien obiecywać konkretnej naprawy bez sprawdzenia auta.</p></details>
+    <details><summary>Czy może umawiać wizyty?</summary><p>Tak. Asystent sprawdza wolne terminy w kalendarzu Google i wpisuje diagnostykę razem z opisem usterki. Zakres zależy od konfiguracji i integracji, a przed wdrożeniem ustalamy, jak działa to w Twoim warsztacie.</p></details>
+    <details><summary>Ile to kosztuje?</summary><p>Pierwszy miesiąc jest bezpłatny. Następnie cena wynosi 300 zł miesięcznie, zgodnie z ustalonymi warunkami.</p></details>
+    <details><summary>Czy muszę od razu zobowiązać się do płatnego abonamentu?</summary><p>Przed uruchomieniem testu jasno ustalimy zasady jego zakończenia i ewentualnego przejścia na abonament.</p></details>
+  </div>
+</section>
+
+<section class="alt" id="kontakt">
+  <div class="wrap contact">
+    <div>
+      <h2>Sprawdź, czy asystent sprawdzi się w Twoim warsztacie</h2>
+      <p class="lead">Zostaw kontakt, a porozmawiamy o tym, jak obsługujesz telefony i jak asystent mógłby pomóc w Twojej codziennej pracy.</p>
+      <ul class="contact-info">
+        <li><b>WhatsApp:</b> <a href="https://wa.me/48732530024">+48 732 530 024</a></li>
+        <li><b>Telefon:</b> <a href="tel:+48732530024">+48 732 530 024</a></li>
+        <li><b>E-mail:</b> <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a></li>
+      </ul>
+      <div class="me">
+        <div class="avatar" id="avatar2" role="img" aria-label="Łukasz Depta">ŁD</div>
+        <p><strong>Łukasz Depta</strong>Odezwę się do Ciebie osobiście.</p>
+      </div>
+    </div>
+    <form id="lead" novalidate>
+      <label for="f-name">Imię<input id="f-name" name="imie" type="text" autocomplete="given-name" required></label>
+      <label for="f-shop">Nazwa warsztatu<input id="f-shop" name="warsztat" type="text" autocomplete="organization" required></label>
+      <label for="f-phone">Numer telefonu<input id="f-phone" name="telefon" type="tel" autocomplete="tel" required></label>
+      <label for="f-mail">Adres e-mail <em>(opcjonalnie)</em><input id="f-mail" name="email" type="email" autocomplete="email"></label>
+      <button class="btn btn-yellow" type="submit">Chcę przetestować asystenta</button>
+      <p class="note" id="note" role="status" hidden></p>
+    </form>
+  </div>
+</section>
 
 <footer>
-  <div class="wrap">
-    <span>© Łukasz Depta</span>
-    <span>Regulamin i umowa powierzenia: <a href="regulamin.html">Regulamin darmowego testu i umowa powierzenia danych (wersja 1.2)</a></span>
+  <div class="wrap foot">
+    <div>
+      <a class="logo" href="#top"><i aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .3l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .3-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></i>Halo Warsztat</a>
+      <p>Asystent AI do obsługi telefonów w warsztatach samochodowych.</p>
+    </div>
+    <div class="col">
+      <strong>Kontakt</strong><br>
+      <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a><br>
+      <a href="https://wa.me/48732530024">+48 732 530 024</a>
+    </div>
+    <div class="col">
+      <a href="regulamin.html">Regulamin darmowego testu i umowa powierzenia danych (wersja 1.2)</a><br>
+      <a href="regulamin.html">Informacje o administratorze danych</a>
+    </div>
   </div>
 </footer>
 
 <script>
-(function () {
-  var players = Array.prototype.slice.call(document.querySelectorAll('.player'));
-
-  function fmt(sec) {
-    if (!isFinite(sec) || sec < 0) sec = 0;
-    var m = Math.floor(sec / 60);
-    var s = Math.floor(sec % 60);
-    return m + ':' + (s < 10 ? '0' : '') + s;
+(function(){
+  /* Samochody rysowane w kodzie: hatchback, sedan, kombi */
+  var CARS={
+    hatch:{body:'M14 90V68Q14 62 22 60L52 56L92 28Q96 26 102 26H186Q194 26 200 31L230 56L266 61Q286 64 286 78V90Z',
+      win:['M62 54L95 31H142V54Z','M148 31H186Q191 31 195 35L220 54H148Z'],door:'M146 56V86'},
+    sedan:{body:'M12 90V64Q12 58 20 57L68 55L96 30Q100 27 106 27H180Q188 27 194 32L226 55L268 60Q288 63 288 78V90Z',
+      win:['M74 53L99 32H142V53Z','M148 32H182Q187 32 191 36L216 53H148Z'],door:'M146 55V86'},
+    van:{body:'M12 90V40Q12 32 22 31L172 29Q192 29 200 38L228 58L268 63Q288 66 288 80V90Z',
+      win:['M26 37H100V56H26Z','M106 37L172 36Q184 36 190 42L214 56H106Z'],door:'M103 37V86'}
+  };
+  function inner(t,c,spin){
+    var d=CARS[t],s='<g class="bob"><path d="'+d.body+'" fill="'+c+'"/>';
+    s+='<path d="M12 83H288V90H12Z" fill="#000" opacity=".16"/>';
+    d.win.forEach(function(w){s+='<path d="'+w+'" fill="var(--glass)"/>'});
+    s+='<path d="'+d.door+'" stroke="#000" stroke-opacity=".25" stroke-width="2"/>';
+    s+='<path d="M26 64H268" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>';
+    s+='<rect x="272" y="66" width="14" height="7" rx="2" fill="#FFE9A0"/><rect x="12" y="68" width="6" height="10" rx="1.5" fill="#D32F2F"/>';
+    [70,228].forEach(function(x){
+      s+='<path d="M'+(x-23)+' 90A23 23 0 0 1 '+(x+23)+' 90Z" fill="#232323"/>';
+      s+='<g'+(spin?' class="spin"':'')+'><circle cx="'+x+'" cy="90" r="17" fill="#0D0D0D"/><circle cx="'+x+'" cy="90" r="9" fill="#C9CDD1"/><path d="M'+x+' 82V98M'+(x-8)+' 90H'+(x+8)+'" stroke="#8E959B" stroke-width="2"/></g>';
+    });
+    return s+'</g>';
   }
+  var SH='<ellipse cx="150" cy="108" rx="128" ry="4" fill="#000" opacity=".2"/>';
+  function car(t,c,spin){return '<svg class="car" viewBox="0 0 300 112" aria-hidden="true">'+SH+inner(t,c,spin)+'</svg>'}
 
-  players.forEach(function (el) {
-    var src      = el.dataset.src;
-    var btn      = el.querySelector('.player-btn');
-    var bar      = el.querySelector('.player-bar');
-    var fill     = el.querySelector('.player-fill');
-    var timeEl   = el.querySelector('.player-time');
-    var audio    = new Audio();
-    audio.preload = 'metadata';
-    audio.src = src;
+  /* Scena z warsztatem */
+  var sc='<svg viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg">';
+  sc+='<rect x="0" y="258" width="960" height="42" fill="var(--road)"/>';
+  sc+='<rect x="0" y="252" width="960" height="6" fill="var(--line)"/>';
+  sc+='<path d="M0 282H960" stroke="var(--yellow)" stroke-width="4" stroke-dasharray="46 34"/>';
+  sc+='<rect x="40" y="76" width="370" height="176" fill="var(--wall)"/>';
+  sc+='<rect x="28" y="56" width="394" height="24" fill="#1A1A1A"/>';
+  sc+='<rect x="90" y="92" width="270" height="52" rx="5" fill="#FFC20E"/>';
+  sc+='<text class="sign" x="225" y="131" text-anchor="middle" fill="#1A1A1A">HALO WARSZTAT</text>';
+  sc+='<rect x="66" y="160" width="140" height="92" fill="var(--door)"/>';
+  for(var i=0;i<7;i++){sc+='<rect x="66" y="'+(172+i*12)+'" width="140" height="3" fill="#000" opacity=".12"/>'}
+  sc+='<rect x="246" y="160" width="140" height="92" fill="#1D1D1D"/>';
+  sc+='<rect x="246" y="160" width="140" height="28" fill="var(--door)"/>';
+  sc+='<rect x="246" y="178" width="140" height="3" fill="#000" opacity=".15"/>';
+  sc+='<circle cx="316" cy="196" r="9" fill="#FFC20E" opacity=".9"/><path d="M316 188V178" stroke="#FFC20E" stroke-width="3"/>';
+  sc+='<rect x="268" y="226" width="96" height="10" rx="3" fill="#3B3B3B"/><rect x="278" y="236" width="8" height="16" fill="#3B3B3B"/><rect x="346" y="236" width="8" height="16" fill="#3B3B3B"/>';
+  sc+='<circle cx="400" cy="46" r="32" fill="#FFC20E"/>';
+  sc+='<g class="ring"><path transform="translate(382 28) scale(1.5)" d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .3l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .3-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z" fill="#1A1A1A"/></g>';
+  sc+='<path class="rip a" d="M446 32Q458 46 446 60" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>';
+  sc+='<path class="rip b" d="M458 22Q478 46 458 70" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>';
+  sc+='<svg x="440" y="168" width="250" height="93" viewBox="0 0 300 112">'+SH+inner('hatch','#D9482B')+'</svg>';
+  sc+='<svg x="702" y="168" width="250" height="93" viewBox="0 0 300 112">'+SH+inner('sedan','#2F6FD6')+'</svg>';
+  sc+='</svg>';
+  document.getElementById('scene').innerHTML=sc;
 
-    timeEl.textContent = '0:00 / 0:00';
+  /* Jadące samochody */
+  var types=['hatch','sedan','van','hatch','sedan'],cols=['#D9482B','#2F6FD6','#D5D9DC','#3E9B5F','#7A5CC8'],tr='';
+  for(var r=0;r<2;r++){for(var k=0;k<types.length;k++){tr+=car(types[k],cols[k],true)}}
+  document.getElementById('track').innerHTML=tr;
 
-    function render() {
-      var d = audio.duration;
-      var c = audio.currentTime;
-      var pct = (isFinite(d) && d > 0) ? (c / d) * 100 : 0;
-      fill.style.width = pct + '%';
-      timeEl.textContent = fmt(c) + ' / ' + fmt(d);
-    }
+  /* Zaparkowane samochody */
+  document.getElementById('parked').innerHTML=car('sedan','#F2B705')+car('van','#2F6FD6')+car('hatch','#3E9B5F');
 
-    function setPlaying(state) {
-      el.classList.toggle('is-playing', state);
-      btn.setAttribute('aria-label', (state ? 'Zatrzymaj' : 'Odtwórz') + ' nagranie');
-    }
+  /* Fala i demo */
+  var hs=[.35,.6,.9,.5,.75,1,.45,.8,.3,.65,.95,.55,.4,.85,.6,.3,.7,.9,.5,.8,.35,.6,1,.45,.7,.3,.85,.55,.75,.4,.9,.6],wv=document.getElementById('wave'),h='';
+  hs.forEach(function(v,i){h+='<span style="--h:'+Math.round(v*100)+'%;--i:'+i+'"></span>'});wv.innerHTML=h;
 
-    btn.addEventListener('click', function () {
-      if (audio.paused) {
-        // zatrzymaj inne
-        players.forEach(function (other) {
-          if (other !== el) {
-            var a = other.__audio;
-            if (a && !a.paused) a.pause();
-          }
-        });
-        audio.play().catch(function () {});
-      } else {
-        audio.pause();
-      }
-    });
-
-    // klik / przeciąganie po pasku
-    var dragging = false;
-    function seekFromEvent(ev) {
-      var rect = bar.getBoundingClientRect();
-      var x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - rect.left;
-      var ratio = Math.min(1, Math.max(0, x / rect.width));
-      if (isFinite(audio.duration) && audio.duration > 0) {
-        audio.currentTime = ratio * audio.duration;
-        render();
-      }
-    }
-    bar.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      bar.setPointerCapture(e.pointerId);
-      seekFromEvent(e);
-    });
-    bar.addEventListener('pointermove', function (e) {
-      if (dragging) seekFromEvent(e);
-    });
-    bar.addEventListener('pointerup', function (e) {
-      dragging = false;
-      try { bar.releasePointerCapture(e.pointerId); } catch (_) {}
-    });
-    bar.addEventListener('pointercancel', function () { dragging = false; });
-
-    // klawiatura
-    bar.addEventListener('keydown', function (e) {
-      if (!isFinite(audio.duration)) return;
-      if (e.key === 'ArrowRight') { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); render(); e.preventDefault(); }
-      if (e.key === 'ArrowLeft')  { audio.currentTime = Math.max(0, audio.currentTime - 5); render(); e.preventDefault(); }
-      if (e.key === ' ' || e.key === 'Enter') { btn.click(); e.preventDefault(); }
-    });
-
-    audio.addEventListener('loadedmetadata', render);
-    audio.addEventListener('durationchange', render);
-    audio.addEventListener('timeupdate', render);
-    audio.addEventListener('play',  function () { setPlaying(true); });
-    audio.addEventListener('pause', function () { setPlaying(false); });
-    audio.addEventListener('ended', function () { setPlaying(false); render(); });
-
-    el.__audio = audio;
+  var play=document.getElementById('play'),icon=document.getElementById('playIcon'),chat=document.getElementById('chat'),
+      cal=document.getElementById('cal'),lines=chat.querySelectorAll('.b'),timers=[],running=false;
+  var P='<path d="M8 5v14l11-7z"/>',S='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  function stop(){timers.forEach(clearTimeout);timers=[];running=false;wv.classList.remove('on');chat.classList.remove('run');cal.classList.remove('pop');
+    lines.forEach(function(l){l.classList.remove('show')});icon.innerHTML=P;play.setAttribute('aria-label','Odtwórz demo')}
+  play.addEventListener('click',function(){
+    if(running){stop();return}
+    running=true;wv.classList.add('on');chat.classList.add('run');icon.innerHTML=S;play.setAttribute('aria-label','Zatrzymaj demo');
+    lines.forEach(function(l,i){timers.push(setTimeout(function(){l.classList.add('show')},i*2000))});
+    timers.push(setTimeout(function(){cal.classList.add('pop')},lines.length*2000));
+    timers.push(setTimeout(stop,lines.length*2000+2200));
   });
+
+  /* Formularz: na razie podgląd */
+  var form=document.getElementById('lead'),note=document.getElementById('note');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var bad=['f-name','f-shop','f-phone'].filter(function(id){return !document.getElementById(id).value.trim()});
+    note.hidden=false;
+    if(bad.length){note.textContent='Uzupełnij imię, nazwę warsztatu i numer telefonu.';document.getElementById(bad[0]).focus();return}
+    note.textContent='To jest podgląd strony. Formularz zostanie połączony z pocztą przed publikacją, więc na razie nic nie zostało wysłane.';
+  });
+
+  /* Zdjęcie profilowe */
+  var PHOTO='łukasz.jpg';
+  if(PHOTO){['avatar','avatar2'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.innerHTML='<img alt="Łukasz Depta" src="'+PHOTO+'">'}
+  })}
 })();
 </script>
 
-</body>
-</html>
+</body></html>
