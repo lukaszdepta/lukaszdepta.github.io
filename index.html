@@ -1,6 +1,11 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Halo Warsztat</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
@@ -207,6 +212,8 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <header class="top">
@@ -472,35 +479,125 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
   /* Zaparkowane samochody */
   document.getElementById('parked').innerHTML=car('sedan','#F2B705')+car('van','#2F6FD6')+car('hatch','#3E9B5F');
 
-  /* Fala i demo */
-  var hs=[.35,.6,.9,.5,.75,1,.45,.8,.3,.65,.95,.55,.4,.85,.6,.3,.7,.9,.5,.8,.35,.6,1,.45,.7,.3,.85,.55,.75,.4,.9,.6],wv=document.getElementById('wave'),h='';
-  hs.forEach(function(v,i){h+='<span style="--h:'+Math.round(v*100)+'%;--i:'+i+'"></span>'});wv.innerHTML=h;
+  /* Fala dźwiękowa */
+  var hs=[.35,.6,.9,.5,.75,1,.45,.8,.3,.65,.95,.55,.4,.85,.6,.3,.7,.9,.5,.8,.35,.6,1,.45,.7,.3,.85,.55,.75,.4,.9,.6],
+      wv=document.getElementById('wave'),h='';
+  hs.forEach(function(v,i){h+='<span style="--h:'+Math.round(v*100)+'%;--i:'+i+'"></span>'});
+  wv.innerHTML=h;
 
-  var play=document.getElementById('play'),icon=document.getElementById('playIcon'),chat=document.getElementById('chat'),
-      cal=document.getElementById('cal'),lines=chat.querySelectorAll('.b'),timers=[],running=false;
-  var P='<path d="M8 5v14l11-7z"/>',S='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
-  function stop(){timers.forEach(clearTimeout);timers=[];running=false;wv.classList.remove('on');chat.classList.remove('run');cal.classList.remove('pop');
-    lines.forEach(function(l){l.classList.remove('show')});icon.innerHTML=P;play.setAttribute('aria-label','Odtwórz demo')}
-  play.addEventListener('click',function(){
-    if(running){stop();return}
-    running=true;wv.classList.add('on');chat.classList.add('run');icon.innerHTML=S;play.setAttribute('aria-label','Zatrzymaj demo');
-    lines.forEach(function(l,i){timers.push(setTimeout(function(){l.classList.add('show')},i*2000))});
-    timers.push(setTimeout(function(){cal.classList.add('pop')},lines.length*2000));
-    timers.push(setTimeout(stop,lines.length*2000+2200));
+  /* ===== DEMO: odtwarzanie audio + animacja czatu ===== */
+  var play=document.getElementById('play'),
+      icon=document.getElementById('playIcon'),
+      chat=document.getElementById('chat'),
+      cal=document.getElementById('cal'),
+      note=document.getElementById('note'),
+      lines=chat.querySelectorAll('.b'),
+      timers=[],
+      running=false;
+
+  var P='<path d="M8 5v14l11-7z"/>', S='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+
+  /* Audio: plik demo-1.mp3 musi być w tym samym folderze co strona */
+  var audio=new Audio('demo-1.mp3');
+  audio.preload='metadata';
+
+  function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+
+  function showNote(msg){
+    if(!note)return;
+    note.hidden=false;
+    note.textContent=msg;
+  }
+  function hideNote(){ if(note) note.hidden=true; }
+
+  function startAnimation(durationMs){
+    clearTimers();
+    var n=lines.length, gap=durationMs/n;
+    lines.forEach(function(l,i){
+      timers.push(setTimeout(function(){l.classList.add('show')},Math.round(i*gap)));
+    });
+    timers.push(setTimeout(function(){cal.classList.add('pop')},Math.round(durationMs*0.9)));
+  }
+
+  function stop(){
+    clearTimers();
+    running=false;
+    wv.classList.remove('on');
+    chat.classList.remove('run');
+    cal.classList.remove('pop');
+    lines.forEach(function(l){l.classList.remove('show')});
+    icon.innerHTML=P;
+    play.setAttribute('aria-label','Odtwórz demo');
+    try{audio.pause();audio.currentTime=0}catch(e){}
+  }
+
+  audio.addEventListener('ended',function(){
+    timers.push(setTimeout(stop,800));
+  });
+  audio.addEventListener('error',function(){
+    showNote('Nie udało się wczytać demo-1.mp3. Sprawdź, czy plik jest w tym samym folderze co strona i czy nazywa się dokładnie "demo-1.mp3".');
   });
 
+  play.addEventListener('click',function(){
+    if(running){stop();return}
+    hideNote();
+    running=true;
+    wv.classList.add('on');
+    chat.classList.add('run');
+    icon.innerHTML=S;
+    play.setAttribute('aria-label','Zatrzymaj demo');
+
+    var started=false;
+    function begin(ms){ if(started) return; started=true; startAnimation(ms); }
+
+    if(audio.readyState>=1 && audio.duration && isFinite(audio.duration) && audio.duration>0){
+      begin(audio.duration*1000);
+    }else{
+      var onMeta=function(){
+        audio.removeEventListener('loadedmetadata',onMeta);
+        var d=(audio.duration && isFinite(audio.duration) && audio.duration>0)
+              ? audio.duration*1000
+              : (lines.length*3000);
+        begin(d);
+      };
+      audio.addEventListener('loadedmetadata',onMeta);
+      timers.push(setTimeout(function(){
+        audio.removeEventListener('loadedmetadata',onMeta);
+        begin(lines.length*3000);
+      },4000));
+    }
+
+    try{
+      var pr=audio.play();
+      if(pr && typeof pr.catch==='function'){
+        pr.catch(function(){
+          showNote('Nie udało się odtworzyć demo-1.mp3. Sprawdź, czy plik istnieje w tym samym folderze co strona.');
+          stop();
+        });
+      }
+    }catch(e){
+      showNote('Nie udało się odtworzyć demo-1.mp3. Sprawdź, czy plik istnieje w tym samym folderze co strona.');
+      stop();
+    }
+  });
+  /* ===== /DEMO ===== */
+
   /* Formularz: na razie podgląd */
-  var form=document.getElementById('lead'),note=document.getElementById('note');
+  var form=document.getElementById('lead');
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var bad=['f-name','f-shop','f-phone'].filter(function(id){return !document.getElementById(id).value.trim()});
-    note.hidden=false;
-    if(bad.length){note.textContent='Uzupełnij imię, nazwę warsztatu i numer telefonu.';document.getElementById(bad[0]).focus();return}
-    note.textContent='To jest podgląd strony. Formularz zostanie połączony z pocztą przed publikacją, więc na razie nic nie zostało wysłane.';
+    showNote('');
+    if(bad.length){
+      showNote('Uzupełnij imię, nazwę warsztatu i numer telefonu.');
+      document.getElementById(bad[0]).focus();
+      return;
+    }
+    showNote('To jest podgląd strony. Formularz zostanie połączony z pocztą przed publikacją, więc na razie nic nie zostało wysłane.');
   });
 
-  /* Zdjęcie profilowe */
-  var PHOTO='łukasz.jpg';
+  /* Zdjęcie profilowe (opcjonalne) */
+  var PHOTO='lukasz.jpg';
   if(PHOTO){['avatar','avatar2'].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.innerHTML='<img alt="Łukasz Depta" src="'+PHOTO+'">'}
@@ -508,4 +605,5 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
 })();
 </script>
 
-</body></html>
+</body>
+</html>
