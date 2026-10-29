@@ -2,213 +2,151 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Regulamin darmowego testu i umowa powierzenia – Łukasz Depta</title>
-<meta name="description" content="Regulamin darmowego testu usługi asystenta głosowego oraz umowa powierzenia przetwarzania danych. Wersja 1.2, 14.10.2026.">
-<meta name="theme-color" content="#0e1320">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Regulamin | Halo Warsztat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
 <style>
 :root{
-  --bg:#0e1320; --bg2:#141b2d; --card:#182138; --line:#26314d;
-  --text:#eef1f8; --muted:#a3adc4; --accent:#ffc629; --accent-ink:#1a1400;
-  --ok:#3ddc97; --danger:#ff5d5d;
-  --radius:18px; --max:1080px;
+  --bg:#FFFFFF; --alt:#F2F3F4; --surface:#FFFFFF; --ink:#1A1A1A; --muted:#575B5F; --line:#DADDE0;
+  --yellow:#FFC20E; --on-yellow:#1A1A1A;
+  --foot-bg:#1A1A1A; --foot-ink:#F2F2F2; --foot-muted:#A9A9A9;
+  --f-head:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: light){
-  :root{
-    --bg:#f6f7fb; --bg2:#ffffff; --card:#ffffff; --line:#e1e5ef;
-    --text:#131a2b; --muted:#566079; --accent:#f5b400; --accent-ink:#1a1400;
-  }
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161616; --alt:#1D1D1D; --surface:#242424; --ink:#F2F2F2; --muted:#ABABAB; --line:#383838; --foot-bg:#0B0B0B; color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 19px/1.65 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.narrow{max-width:820px;margin:0}
+h1,h2{font-family:var(--f-head);margin:0;text-wrap:balance;text-transform:uppercase;font-weight:800;letter-spacing:.005em}
+p{margin:0}
+a{color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:10px;border:3px solid var(--ink);font:700 17px/1 var(--f-body);text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:800 30px/1 var(--f-head);text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
+.logo i{width:44px;height:44px;border-radius:10px;background:var(--yellow);color:var(--on-yellow);display:grid;place-items:center;flex:none}
+.intro{padding-block:clamp(24px,5vw,56px) 40px}
+.intro .tag{display:inline-block;font:700 15px/1 var(--f-body);padding:8px 12px;border-radius:8px;background:var(--yellow);color:var(--on-yellow);margin-bottom:20px}
+.intro h1{font-size:clamp(32px,5.4vw,60px);line-height:1}
+.intro .lead{color:var(--muted);margin-top:20px;font-size:clamp(18px,2vw,21px);max-width:36em}
+.toc{background:var(--alt);padding-block:48px}
+.toc h2{font-size:clamp(28px,3.4vw,38px);margin-bottom:22px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px}
+.toc li{border-bottom:2px solid var(--line)}
+.toc a{display:flex;gap:10px;padding:12px 0;text-decoration:none;font-size:18px;line-height:1.35}
+.toc a b{flex:none;min-width:3.2em;font:800 21px/1.2 var(--f-head)}
+.toc a:hover{text-decoration:underline;text-decoration-color:var(--yellow);text-decoration-thickness:3px}
+.doc{padding-block:24px 80px}
+.par{padding-top:48px}
+.par h2{font-size:clamp(25px,3.6vw,40px);line-height:1.08;padding-bottom:14px;border-bottom:4px solid var(--yellow);overflow-wrap:anywhere}
+.par h2 span{margin-right:.35em}
+.par ol{margin:18px 0 0;padding-left:1.9em}
+.par ol>li{padding:8px 0 8px .3em}
+.par ol>li::marker{font-weight:700;color:var(--muted)}
+.par ul{margin:10px 0 4px;padding-left:1.2em}
+.par ul li{padding:3px 0;list-style:none;position:relative}
+.par ul li::before{content:"";position:absolute;left:-1.1em;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+.par a{font-weight:600;text-decoration-color:var(--yellow);text-decoration-thickness:3px;text-underline-offset:3px;word-break:break-word}
+.par strong{font-weight:700;background:linear-gradient(transparent 60%,color-mix(in srgb,var(--yellow) 55%,transparent) 60%)}
+.back{margin-top:56px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.back .btn{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.accept{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg);border-top:3px solid var(--yellow);box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.accept a{display:flex;align-items:center;justify-content:center;gap:12px;max-width:1048px;margin:0 auto;min-height:60px;padding:10px 20px;border-radius:12px;background:#25D366;color:#0B2E1A;text-decoration:none;font:800 clamp(14px,2.4vw,18px)/1.2 var(--f-body);text-transform:uppercase;text-align:center;letter-spacing:.01em;transition:transform .15s}
+.accept a:hover{transform:translateY(-2px)}
+.accept svg{flex:none}
+footer{padding-bottom:calc(56px + 84px)}
+footer{background:var(--foot-bg);color:var(--foot-ink);padding-block:56px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px}
+footer .logo{color:var(--foot-ink)}
+footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
+.col{font-size:17px;line-height:1.9;color:var(--foot-muted)}
+.col a{color:var(--foot-muted);text-decoration:none}
+.col a:hover{color:var(--yellow)}
+.col strong{color:var(--foot-ink)}
+@media (max-width:720px){
+  body{font-size:18px}
+  .toc ol{grid-template-columns:minmax(0,1fr)}
+  .top .btn{display:none}
+  .par ol{padding-left:1.6em}
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.6;font-size:17px;
-  -webkit-font-smoothing:antialiased;
-}
-img,audio{max-width:100%}
-a{color:inherit}
-.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
-section{padding:72px 0}
-h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
-h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:12px}
-.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.lead{color:var(--muted);font-size:1.05rem;max-width:62ch}
-
-header{
-  position:sticky;top:0;z-index:50;
-  background:color-mix(in srgb,var(--bg) 85%,transparent);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
-.brand{display:flex;align-items:baseline;gap:.3em;font-weight:800;font-size:1.35rem;letter-spacing:-.03em;text-decoration:none;color:var(--text)}
-.brand span{color:var(--accent)}
-.nav nav{display:flex;gap:22px}
-.nav nav a{text-decoration:none;color:var(--muted);font-size:.95rem}
-.nav nav a:hover{color:var(--text)}
-@media(max-width:720px){.nav nav{display:none}}
-
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:15px 26px;border-radius:999px;font-weight:700;font-size:1rem;
-  text-decoration:none;border:2px solid transparent;cursor:pointer;
-  transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
-}
-.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 8px 26px -10px var(--accent)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-ghost{border-color:var(--line);color:var(--text);background:transparent}
-.btn-ghost:hover{border-color:var(--accent)}
-.btn-sm{padding:9px 18px;font-size:.9rem}
-
-.hero{padding:56px 0 24px;position:relative;overflow:hidden}
-.hero::before{
-  content:"";position:absolute;inset:-20% -10% auto auto;width:520px;height:520px;
-  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent),transparent 65%);
-  pointer-events:none;z-index:0;
-}
-.hero-grid{max-width:760px;position:relative;z-index:1}
-.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:14px}
-.hero h1 span{color:var(--accent)}
-.hero .lead{margin-bottom:0}
-
-.alt{background:var(--bg2);border-block:1px solid var(--line)}
-
-.legal{margin-top:8px}
-.legal h2{margin-top:0}
-.legal h3{font-size:1.15rem;margin-top:26px;margin-bottom:10px}
-.legal p, .legal li{color:var(--muted)}
-.legal strong{color:var(--text)}
-.legal ol{
-  list-style:none;counter-reset:item;display:grid;gap:14px;margin-top:18px;padding:0;
-}
-.legal ol li{
-  position:relative;padding-left:44px;counter-increment:item;
-}
-.legal ol li::before{
-  content:counter(item);position:absolute;left:0;top:1px;
-  display:grid;place-items:center;width:30px;height:30px;border-radius:50%;
-  background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);
-  font-weight:800;font-size:.85rem;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
-}
-.legal .note{
-  margin-top:22px;padding:16px 20px;border-left:4px solid var(--accent);
-  background:var(--card);border-radius:0 12px 12px 0;color:var(--muted);
-}
-.legal .note strong{color:var(--text)}
-
-.section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.meta{color:var(--muted);font-size:.9rem}
-
-.actions{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px}
-
-footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between}
-footer a{color:var(--muted)}
-footer a:hover{color:var(--text)}
-
-@media(max-width:600px){section{padding:54px 0}body{font-size:16px}.btn{width:100%}.nav .btn{width:auto}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{.top .btn,.back,.toc,.accept{display:none}body{font-size:12pt}}
 </style>
 </head>
 <body>
+<div class="wrap wide">
+  <header class="top">
+    <a class="logo" href="index.html" aria-label="Halo Warsztat, strona główna"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .3l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .3-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></i>Halo Warsztat</a>
+    <a class="btn" href="index.html">← Strona główna</a>
+  </header>
+</div>
 
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Łukasz Depta – strona główna">Łukasz <span>Depta</span></a>
-    <nav>
-      <a href="index.html#jak">Jak to działa</a>
-      <a href="index.html#demo">Demo</a>
-      <a href="index.html#test">Test 14 dni</a>
-      <a href="index.html#faq">Pytania</a>
-    </nav>
-    <a class="btn btn-ghost btn-sm" href="index.html">← Wróć na stronę</a>
+<div class="wrap">
+  <div class="intro narrow">
+    <span class="tag">Wersja 2.2 — 29.10.2026 r.</span>
+    <h1>REGULAMIN DARMOWEGO TESTU USŁUGI ASYSTENTA AI ORAZ UMOWA POWIERZENIA PRZETWARZANIA DANYCH OSOBOWYCH</h1>
+    <p class="lead">Zasady bezpłatnego testowania asystenta AI oraz warunki powierzenia przetwarzania danych osobowych. Dokument obowiązuje między Łukaszem Deptą a warsztatem samochodowym.</p>
   </div>
-</header>
+</div>
 
-<main id="top">
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Dokument prawny</span>
-      <h1>Regulamin darmowego testu i umowa powierzenia <span>danych</span></h1>
-      <p class="lead">Wersja 1.2 · data: 14.10.2026. Dokument określa zasady darmowego testu asystenta głosowego oraz warunki powierzenia przetwarzania danych osobowych.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#zasady">Zasady testu</a>
-        <a class="btn btn-ghost" href="#dane">Dane osobowe</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="zasady" class="alt">
-  <div class="wrap legal">
-    <span class="eyebrow">Część I</span>
-    <div class="section-head">
-      <h2>Zasady testu</h2>
-      <span class="meta">14 dni · bezpłatnie · bez zobowiązań</span>
-    </div>
-    <ol>
-      <li><strong>Usługodawca:</strong> Łukasz Depta, e-mail: <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a>, WhatsApp: <a href="https://wa.me/48732530024">48732530024</a>, strona: lukaszdepta.github.io. <strong>Klient:</strong> przedsiębiorca, który akceptuje ten dokument.</li>
-      <li>Test trwa <strong>14 dni</strong> od włączenia przekierowania, jest darmowy i bez zobowiązań.</li>
-      <li>Asystent AI odbiera tylko połączenia, których Klient nie odebrał. Zbiera imię, numer telefonu, miasto oraz osiedle lub dzielnicę, rodzaj prac, planowany termin startu i inne informacje podane przez dzwoniącego, a zgłoszenie wysyła Klientowi e-mailem lub przez Telegram, według wyboru Klienta.</li>
-      <li>Asystent nie podaje wiążących cen, wycen ani widełek, nie umawia wiążących terminów, w tym oględzin i rozpoczęcia prac, i nie obiecuje, że ktoś oddzwoni w określonym czasie. Oddzwonienie do dzwoniącego należy do Klienta.</li>
-      <li>Na początku rozmowy asystent informuje, że jest AI i że rozmowa jest nagrywana.</li>
-      <li>Klient wyłącza przekierowanie w dowolnej chwili kodem u swojego operatora. Usługodawca może wyłączyć usługę w razie awarii.</li>
-      <li>Konfigurację (nazwę firmy, imię właściciela, zakres prac, obszar działania, czy przyjmować zgłoszenia spoza obszaru, godziny pracy, zasadę odpowiedzi o cenie i oddzwonieniu) ustala Klient i potwierdza przed startem. Klient odpowiada za prawdziwość i kompletność tych informacji.</li>
-      <li>Asystent informuje dzwoniącego, że firma nie wykonuje prac spoza zakresu ustalonego przez Klienta, i nie zbiera wtedy zgłoszenia. Dotyczy to także miejsc spoza obszaru, jeśli Klient wyłączył zgłoszenia spoza obszaru. Klient odpowiada za kompletność zakresu, a Usługodawca nie odpowiada za zgłoszenia niezebrane z powodu niepełnego zakresu lub obszaru.</li>
-      <li>Usługa to wsparcie, nie gwarancja. Usługodawca nie odpowiada za utracone zlecenia z powodu awarii operatora lub dostawców technicznych, błędów rozpoznawania mowy lub nieodebrania zgłoszenia przez Klienta, w granicach dozwolonych prawem.</li>
-      <li>Po teście Klient decyduje, czy kontynuować. Brak decyzji oznacza wyłączenie usługi bez opłat. Warunki płatne ustalamy osobno, przed pierwszą opłatą.</li>
-      <li>Referencja po teście jest dobrowolna i wymaga osobnej zgody (tak/nie).</li>
-    </ol>
-  </div>
-</section>
-
-<section id="dane">
-  <div class="wrap legal">
-    <span class="eyebrow">Część II</span>
-    <div class="section-head">
-      <h2>Dane osobowe</h2>
-      <span class="meta">umowa powierzenia, wersja skrócona</span>
-    </div>
-    <ol>
-      <li>Klient jest <strong>administratorem danych dzwoniących</strong>. Usługodawca jest <strong>podmiotem przetwarzającym</strong> i przetwarza je w imieniu Klienta, wyłącznie na jego polecenie (ten dokument i konfiguracja) i na potrzeby usługi.</li>
-      <li>Zakres danych: imię, numer telefonu, miasto, osiedle lub dzielnica, opis zlecenia, nagranie i transkrypcja rozmowy, a także inne informacje, które dzwoniący poda sam (np. adres). Osoby: klienci i potencjalni klienci Klienta.</li>
-      <li>Usługodawca korzysta z dostawców: <strong>Vapi</strong> (platforma głosowa), <strong>Deepgram</strong> (rozpoznawanie mowy), <strong>OpenAI</strong> (model językowy), <strong>Microsoft Azure</strong> (synteza mowy), <strong>Twilio</strong> (numer telefoniczny i połączenia), <strong>Resend</strong> (dostawca poczty e-mail) oraz <strong>Telegram</strong> (jeśli Klient wybierze zgłoszenia przez Telegram). Część z nich może przetwarzać dane poza UE na podstawie standardowych klauzul umownych lub innego mechanizmu przewidzianego w RODO. Klient wyraża na to zgodę.</li>
-      <li>O zmianie dostawców z pkt 3 Usługodawca informuje Klienta z wyprzedzeniem. Klient może wtedy zakończyć test.</li>
-      <li>Osoby upoważnione do dostępu do danych są zobowiązane do zachowania ich w tajemnicy.</li>
-      <li>Usługodawca stosuje odpowiednie środki bezpieczeństwa (hasła, uwierzytelnianie dwuskładnikowe, szyfrowane połączenia) i na prośbę Klienta pomaga w realizacji praw osób, których dane dotyczą.</li>
-      <li>Nagrania i transkrypcje są usuwane po <strong>30 dniach</strong>. Na prośbę Klienta po teście dane są usuwane lub przekazywane Klientowi w ciągu <strong>14 dni</strong>.</li>
-      <li>Usługodawca nie przekazuje danych nikomu poza dostawcami z pkt 3 i nie używa ich do własnych celów ani do trenowania modeli.</li>
-      <li>Usługodawca zgłasza Klientowi naruszenie ochrony danych bez zbędnej zwłoki, w ciągu <strong>48 godzin</strong> od stwierdzenia.</li>
-      <li>Klient odpowiada za informację dla swoich klientów o przetwarzaniu danych. Usługodawca przekaże gotowy tekst takiej informacji na prośbę Klienta.</li>
-    </ol>
-
-    <p class="note"><strong>Akceptacja:</strong> Klient akceptuje ten dokument, odpisując „AKCEPTUJĘ” na wiadomość Usługodawcy z linkiem do tej wersji, przed włączeniem przekierowania. Zapis akceptacji przechowuje Usługodawca. Akceptacja obejmuje Regulamin oraz umowę powierzenia przetwarzania danych na warunkach opisanych powyżej.</p>
-  </div>
-</section>
-
-<section class="alt">
+<nav class="toc" aria-label="Spis treści">
   <div class="wrap">
-    <span class="eyebrow">Masz pytania?</span>
-    <h2>Napisz do mnie</h2>
-    <p class="lead">Chętnie wyjaśnię wątpliwości dotyczące regulaminu, danych osobowych albo samego testu.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="https://wa.me/48732530024">Napisz na WhatsApp</a>
-      <a class="btn btn-ghost" href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a>
-    </div>
+    <h2>Spis treści</h2>
+    <ol><li><a href="#p1"><b>§ 1.</b> Dane usługodawcy</a></li><li><a href="#p2"><b>§ 2.</b> Przedmiot usługi</a></li><li><a href="#p3"><b>§ 3.</b> Darmowy okres testowy</a></li><li><a href="#p4"><b>§ 4.</b> Rezerwowanie wizyt w Google Calendar</a></li><li><a href="#p5"><b>§ 5.</b> Obowiązki warsztatu</a></li><li><a href="#p6"><b>§ 6.</b> Obowiązki Usługodawcy</a></li><li><a href="#p7"><b>§ 7.</b> Odpowiedzialność i ograniczenia</a></li><li><a href="#p8"><b>§ 8.</b> Dostępność i zakończenie usługi</a></li><li><a href="#p9"><b>§ 9.</b> Dane osobowe — role stron</a></li><li><a href="#p10"><b>§ 10.</b> Zakres i cel powierzenia danych</a></li><li><a href="#p11"><b>§ 11.</b> Obowiązki podmiotu przetwarzającego</a></li><li><a href="#p12"><b>§ 12.</b> Dostawcy technologii i usługi zewnętrzne</a></li><li><a href="#p13"><b>§ 13.</b> Bezpieczeństwo, przechowywanie i usuwanie danych</a></li><li><a href="#p14"><b>§ 14.</b> Naruszenia ochrony danych</a></li><li><a href="#p15"><b>§ 15.</b> Obowiązki warsztatu jako administratora</a></li><li><a href="#p16"><b>§ 16.</b> Poufność</a></li><li><a href="#p17"><b>§ 17.</b> Postanowienia końcowe</a></li><li><a href="#p18"><b>§ 18.</b> Akceptacja regulaminu i powierzenia danych</a></li></ol>
   </div>
-</section>
+</nav>
 
+<main class="doc">
+  <div class="wrap">
+<div class="narrow">
+<section class="par" id="p1"><h2><span>§ 1.</span> Dane usługodawcy</h2><ol><li>Usługodawcą jest Łukasz Depta, dalej zwany „Usługodawcą”.</li><li>Dane kontaktowe Usługodawcy:<ul><li>E-mail: <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a></li><li>WhatsApp: <a href="https://wa.me/48732530024">https://wa.me/48732530024</a></li><li>Strona internetowa: <a href="https://lukaszdepta.github.io/">https://lukaszdepta.github.io/</a></li></ul></li><li>Usługa jest przeznaczona dla warsztatów samochodowych zainteresowanych automatyzacją obsługi połączeń telefonicznych i umawiania wizyt.</li></ol></section>
+<section class="par" id="p2"><h2><span>§ 2.</span> Przedmiot usługi</h2><ol><li>Usługodawca udostępnia warsztatowi samochodowemu asystenta telefonicznego opartego na sztucznej inteligencji, dalej zwanego „Asystentem”.</li><li>Asystent wspiera warsztat w obsłudze połączeń telefonicznych, w szczególności gdy pracownicy warsztatu nie mogą odebrać telefonu.</li><li>W zależności od konfiguracji Asystent może:<ul><li>odbierać połączenia przekierowane z numeru warsztatu;</li><li>udzielać informacji o warsztacie i zakresie świadczonych usług na podstawie przekazanych mu danych;</li><li>zbierać dane kontaktowe klienta;</li><li>zbierać informacje o pojeździe, w tym jego marce, modelu i zgłaszanym problemie;</li><li>ustalać, jakiej usługi lub diagnostyki potrzebuje klient;</li><li>sprawdzać dostępność terminów w podłączonym kalendarzu;</li><li>proponować dostępne terminy wizyt;</li><li><strong>rezerwować wizyty i zapisywać je bezpośrednio w Google Calendar warsztatu</strong>;</li><li>przekazywać warsztatowi podsumowania rozmów oraz informacje o dokonanych rezerwacjach;</li><li>wysyłać powiadomienia lub zgłoszenia za pośrednictwem skonfigurowanych kanałów.</li></ul></li><li>Zakres funkcji zależy od wdrożenia, dostępnych integracji i konfiguracji uzgodnionej z warsztatem.</li><li>Asystent jest narzędziem wspierającym pracę warsztatu. Nie zastępuje mechanika, nie przeprowadza fizycznej diagnostyki pojazdu i nie gwarantuje prawidłowego rozpoznania usterki.</li></ol></section>
+<section class="par" id="p3"><h2><span>§ 3.</span> Darmowy okres testowy</h2><ol><li>Usługodawca udostępnia warsztatowi możliwość przetestowania usługi przez <strong>30 dni kalendarzowych od dnia aktywacji testu</strong>.</li><li>Test jest bezpłatny i nie zobowiązuje warsztatu do wykupienia usługi po jego zakończeniu.</li><li>W trakcie testu warsztat może sprawdzić działanie Asystenta, w tym obsługę połączeń i rezerwowanie wizyt w Google Calendar, o ile odpowiednie integracje zostały skonfigurowane.</li><li>Przed rozpoczęciem testu strony uzgadniają zakres wdrożenia, sposób przekierowania połączeń, konfigurację kalendarza oraz inne niezbędne ustawienia.</li><li>Po upływie 30 dni test kończy się, chyba że strony uzgodnią kontynuację usługi.</li><li>Kontynuacja usługi na warunkach płatnych wymaga odrębnego uzgodnienia ceny, zakresu usługi i sposobu rozliczenia.</li><li>Brak zgody na kontynuację nie powoduje obowiązku zapłaty za okres testowy.</li><li>Po zakończeniu testu Usługodawca może wyłączyć usługę. Zasady dotyczące danych osobowych określa dalsza część dokumentu.</li></ol></section>
+<section class="par" id="p4"><h2><span>§ 4.</span> Rezerwowanie wizyt w Google Calendar</h2><ol><li>Asystent może rezerwować terminy wizyt klientów w kalendarzu Google Calendar wskazanym przez warsztat.</li><li>Rezerwacja może obejmować termin wizyty, dane kontaktowe klienta, informacje o pojeździe oraz krótki opis zgłaszanego problemu — w zakresie niezbędnym do obsługi wizyty.</li><li>Asystent proponuje terminy na podstawie informacji o dostępności uzyskanych z podłączonego kalendarza oraz ustawień przekazanych przez warsztat.</li><li><strong>Termin uznaje się za zarezerwowany za pośrednictwem Asystenta dopiero po skutecznym zapisaniu rezerwacji w kalendarzu.</strong> Jeżeli zapis się nie powiedzie albo system nie potwierdzi jego wykonania, Asystent nie powinien przedstawiać terminu jako potwierdzonej rezerwacji.</li><li>Warsztat odpowiada za:<ul><li>prawidłowe skonfigurowanie kalendarza i integracji;</li><li>określenie godzin pracy, dostępności oraz zasad umawiania wizyt;</li><li>aktualizowanie dostępności i niedostępności terminów;</li><li>kontrolowanie wpisów w kalendarzu;</li><li>informowanie Usługodawcy o zmianach wpływających na rezerwacje.</li></ul></li><li>Warsztat powinien regularnie sprawdzać rezerwacje i reagować na ewentualne błędy, konflikty terminów lub zmiany dostępności.</li><li>Rezerwacja nie oznacza gwarancji wykonania naprawy podczas wizyty. Może dotyczyć oględzin, konsultacji, diagnostyki lub innej uzgodnionej czynności.</li><li>Jeżeli z powodu awarii integracji, niedostępności kalendarza lub innego błędu rezerwacja nie zostanie poprawnie zapisana, może być konieczne ręczne uzgodnienie terminu z klientem.</li><li>Zmiana lub anulowanie rezerwacji odbywa się zgodnie z funkcjami wdrożonego systemu oraz zasadami ustalonymi z warsztatem.</li></ol></section>
+<section class="par" id="p5"><h2><span>§ 5.</span> Obowiązki warsztatu</h2><ol><li>Warsztat zobowiązuje się do:<ul><li>przekazania prawdziwych i aktualnych informacji o działalności, usługach i godzinach pracy;</li><li>skonfigurowania przekierowania połączeń, jeśli jest wymagane;</li><li>zapewnienia prawidłowego dostępu do Google Calendar w zakresie niezbędnym do świadczenia usługi;</li><li>ustalenia zasad rezerwowania terminów i przekazania ich Usługodawcy;</li><li>sprawdzania rezerwacji oraz informacji przekazywanych przez Asystenta;</li><li>informowania Usługodawcy o błędach, zmianach konfiguracji i problemach z działaniem usługi;</li><li>realizowania obowiązków prawnych dotyczących danych osobowych, w tym obowiązków informacyjnych wobec osób dzwoniących.</li></ul></li><li>Warsztat nie powinien udostępniać Asystentowi danych, których przetwarzanie nie jest potrzebne do obsługi połączenia lub rezerwacji wizyty.</li><li>Warsztat odpowiada za treść informacji przekazanych do systemu, ustawienia dostępności terminów oraz decyzje dotyczące organizacji pracy i wykonania usług serwisowych.</li></ol></section>
+<section class="par" id="p6"><h2><span>§ 6.</span> Obowiązki Usługodawcy</h2><ol><li>Usługodawca zobowiązuje się do:<ul><li>skonfigurowania usługi w zakresie uzgodnionym z warsztatem;</li><li>podejmowania uzasadnionych działań w celu utrzymania prawidłowego działania Asystenta;</li><li>informowania warsztatu o znanych istotnych problemach technicznych wpływających na usługę;</li><li>stosowania odpowiednich środków bezpieczeństwa w odniesieniu do przetwarzanych danych;</li><li>przetwarzania danych osobowych zgodnie z udokumentowanymi instrukcjami warsztatu i obowiązującymi przepisami.</li></ul></li><li>Usługodawca może korzystać z dostawców technologii wymienionych w § 12.</li><li>Usługodawca nie gwarantuje całkowicie nieprzerwanego działania usługi, ponieważ zależy ono również od dostępności sieci telefonicznej, Internetu, integracji, kalendarza i usług zewnętrznych.</li></ol></section>
+<section class="par" id="p7"><h2><span>§ 7.</span> Odpowiedzialność i ograniczenia</h2><ol><li>Usługodawca dokłada starań, aby Asystent działał zgodnie z ustaloną konfiguracją, ale nie gwarantuje, że każde połączenie zostanie obsłużone bezbłędnie ani że system zawsze prawidłowo zrozumie rozmówcę.</li><li>Usługodawca nie gwarantuje określonej liczby połączeń, klientów, rezerwacji ani przychodów warsztatu.</li><li>Usługodawca nie odpowiada za problemy wynikające z:<ul><li>nieprawidłowej konfiguracji lub nieaktualnych danych przekazanych przez warsztat;</li><li>nieprawidłowych ustawień lub niedostępności Google Calendar;</li><li>awarii sieci telekomunikacyjnej, Internetu lub usług zewnętrznych;</li><li>działań osób trzecich lub zdarzeń pozostających poza uzasadnioną kontrolą Usługodawcy;</li><li>błędnych informacji podanych przez rozmówcę;</li><li>braku weryfikacji rezerwacji przez warsztat.</li></ul></li><li>Postanowienia dotyczące odpowiedzialności nie wyłączają ani nie ograniczają odpowiedzialności w zakresie, w jakim byłoby to niedopuszczalne na mocy obowiązujących przepisów.</li><li>Warsztat pozostaje odpowiedzialny za faktyczną obsługę klienta, wykonanie naprawy, wycenę, diagnostykę oraz realizację uzgodnionych usług.</li></ol></section>
+<section class="par" id="p8"><h2><span>§ 8.</span> Dostępność i zakończenie usługi</h2><ol><li>Warsztat może zrezygnować z dalszego korzystania z usługi po zakończeniu testu, bez obowiązku wykupienia płatnego abonamentu.</li><li>W przypadku kontynuacji na warunkach płatnych zasady wypowiedzenia zostaną ustalone odrębnie.</li><li>Usługodawca może czasowo ograniczyć dostęp do usługi w razie awarii, konieczności konserwacji, zagrożenia bezpieczeństwa lub naruszenia uzgodnionych zasad korzystania.</li><li>Po zakończeniu współpracy Usługodawca wyłączy dostęp do usługi, a dane osobowe przetwarzane na zlecenie warsztatu zostaną zwrócone lub usunięte zgodnie z § 13, z uwzględnieniem obowiązków prawnych dotyczących ich przechowywania.</li></ol></section>
+<section class="par" id="p9"><h2><span>§ 9.</span> Dane osobowe — role stron</h2><ol><li>W odniesieniu do danych osobowych klientów warsztatu przetwarzanych za pośrednictwem Asystenta warsztat działa jako <strong>administrator danych</strong>, a Łukasz Depta jako <strong>podmiot przetwarzający</strong> w rozumieniu RODO.</li><li>Warsztat określa cele i podstawy prawne przetwarzania danych, a Usługodawca przetwarza dane w zakresie koniecznym do świadczenia usługi i zgodnie z udokumentowanymi instrukcjami warsztatu.</li><li>Każda ze stron odpowiada za wypełnianie obowiązków, które dotyczą jej zgodnie z RODO i innymi obowiązującymi przepisami.</li><li>W zakresie danych kontaktowych przetwarzanych przez Usługodawcę w jego własnych celach, np. do obsługi relacji umownej z warsztatem i rozliczeń, Usługodawca może działać jako odrębny administrator danych.</li></ol></section>
+<section class="par" id="p10"><h2><span>§ 10.</span> Zakres i cel powierzenia danych</h2><ol><li>Warsztat powierza Usługodawcy przetwarzanie danych osobowych w zakresie niezbędnym do uruchomienia i obsługi Asystenta telefonicznego.</li><li>Cele przetwarzania obejmują:<ul><li>obsługę połączeń telefonicznych;</li><li>rozpoznawanie i zapisywanie informacji przekazywanych przez rozmówców;</li><li>przygotowywanie podsumowań rozmów;</li><li>rezerwowanie i obsługę terminów wizyt w Google Calendar;</li><li>przekazywanie informacji warsztatowi;</li><li>diagnozowanie i rozwiązywanie problemów technicznych związanych z usługą.</li></ul></li><li>Kategorie danych mogą obejmować:<ul><li>imię i nazwisko klienta, jeśli zostanie podane;</li><li>numer telefonu i inne dane kontaktowe;</li><li>informacje o pojeździe, np. markę, model lub dane identyfikacyjne podane przez klienta;</li><li>opis problemu, zgłoszonej usterki lub potrzebnej usługi;</li><li>preferowany termin wizyty oraz informacje o rezerwacji;</li><li>treść rozmowy, transkrypcję lub nagranie, jeśli odpowiednie funkcje są włączone;</li><li>inne informacje podane dobrowolnie przez rozmówcę, o ile są objęte zakresem usługi.</li></ul></li><li>Usługa nie jest przeznaczona do celowego gromadzenia szczególnych kategorii danych osobowych, o których mowa w art. 9 RODO, ani danych dotyczących wyroków skazujących i naruszeń prawa, o których mowa w art. 10 RODO.</li><li>Strony ograniczają przetwarzanie do danych niezbędnych do realizacji celu obsługi połączeń i rezerwacji.</li></ol></section>
+<section class="par" id="p11"><h2><span>§ 11.</span> Obowiązki podmiotu przetwarzającego</h2><ol><li>Usługodawca zobowiązuje się:<ul><li>przetwarzać dane wyłącznie na udokumentowane polecenie warsztatu, chyba że obowiązek przetwarzania wynika z prawa;</li><li>zapewnić, aby osoby upoważnione do przetwarzania danych zobowiązały się do zachowania poufności;</li><li>stosować środki techniczne i organizacyjne odpowiednie do ryzyka;</li><li>w miarę możliwości pomagać warsztatowi w realizacji praw osób, których dane dotyczą;</li><li>w miarę możliwości wspierać warsztat w realizacji obowiązków związanych z bezpieczeństwem danych, zgłaszaniem naruszeń i oceną skutków dla ochrony danych;</li><li>udostępniać warsztatowi informacje niezbędne do wykazania spełnienia obowiązków wynikających z art. 28 RODO;</li><li>nie wykorzystywać danych klientów warsztatu do własnych celów marketingowych;</li><li>nie wykorzystywać danych ani treści rozmów powierzonych przez warsztat do trenowania własnych modeli AI, chyba że strony odrębnie uzgodnią to na piśmie, a przetwarzanie będzie zgodne z prawem.</li></ul></li><li>Usługodawca poinformuje warsztat, jeśli jego zdaniem instrukcja dotycząca przetwarzania danych narusza RODO lub inne przepisy o ochronie danych.</li><li>Usługodawca może odmówić wykonania instrukcji, której realizacja naruszałaby obowiązujące przepisy.</li></ol></section>
+<section class="par" id="p12"><h2><span>§ 12.</span> Dostawcy technologii i usługi zewnętrzne</h2><ol><li>W celu świadczenia usługi Usługodawca korzysta z następujących dostawców:<ul><li><strong>Vapi</strong> — platforma głosowa;</li><li><strong>Deepgram</strong> — rozpoznawanie mowy;</li><li><strong>OpenAI</strong> — model językowy;</li><li><strong>Microsoft Azure</strong> — synteza mowy;</li><li><strong>Twilio</strong> — numer telefoniczny i obsługa połączeń;</li><li><strong>Resend</strong> — dostawca poczty e-mail;</li><li><strong>Telegram</strong> — przekazywanie zgłoszeń, jeśli warsztat wybierze ten kanał.</li></ul></li><li>W zależności od funkcji uruchomionych w danym wdrożeniu dostawcy mogą przetwarzać dane niezbędne do obsługi połączeń, przetwarzania mowy, generowania odpowiedzi, przekazywania wiadomości lub realizacji innych funkcji usługi.</li><li>Usługodawca może korzystać z dalszych podmiotów przetwarzających w zakresie niezbędnym do realizacji usługi, zgodnie z art. 28 RODO.</li><li>Jeżeli w ramach usługi dane osobowe są przekazywane poza Europejski Obszar Gospodarczy, przekazanie odbywa się z zachowaniem wymagań rozdziału V RODO, w tym z zastosowaniem odpowiedniego mechanizmu prawnego, jeśli jest wymagany.</li><li>Warsztat przyjmuje do wiadomości, że korzystanie z usług zewnętrznych wiąże się z przetwarzaniem danych w ramach infrastruktury i funkcji tych dostawców.</li><li>Integracja z Google Calendar służy do sprawdzania dostępności terminów i zapisywania rezerwacji w kalendarzu warsztatu. Dane przekazywane do Google Calendar mogą obejmować informacje niezbędne do utworzenia i obsługi rezerwacji.</li></ol></section>
+<section class="par" id="p13"><h2><span>§ 13.</span> Bezpieczeństwo, przechowywanie i usuwanie danych</h2><ol><li>Usługodawca stosuje środki bezpieczeństwa odpowiednie do charakteru i zakresu przetwarzanych danych, uwzględniając ryzyko naruszenia praw i wolności osób fizycznych.</li><li>Środki bezpieczeństwa mogą obejmować kontrolę dostępu, ograniczenie uprawnień oraz zabezpieczenia transmisji, kont i integracji.</li><li>Dane osobowe są przetwarzane w zakresie niezbędnym do świadczenia usługi i zgodnie z instrukcjami warsztatu oraz obowiązującymi przepisami.</li><li>Po zakończeniu świadczenia usługi Usługodawca, według decyzji warsztatu, usuwa lub zwraca dane osobowe oraz usuwa istniejące kopie, chyba że prawo nakazuje ich dalsze przechowywanie.</li><li>O ile nie istnieje prawny obowiązek dalszego przechowywania, Usługodawca podejmuje działania w celu usunięcia lub zwrotu danych w terminie 14 dni od zakończenia współpracy albo otrzymania odpowiedniego polecenia warsztatu.</li><li>Usuwanie danych z kopii zapasowych i systemów dostawców może podlegać ich procesom technicznym oraz obowiązującym umowom.</li><li>Wpisy rezerwacji w Google Calendar mogą pozostać w kalendarzu warsztatu po zakończeniu usługi. Warsztat odpowiada za ich dalsze przechowywanie i usuwanie jako administrator danych. Usługodawca usuwa dane, do których ma dostęp w ramach usługi, zgodnie z instrukcjami warsztatu i możliwościami technicznymi integracji.</li></ol></section>
+<section class="par" id="p14"><h2><span>§ 14.</span> Naruszenia ochrony danych</h2><ol><li>Usługodawca poinformuje warsztat o stwierdzonym naruszeniu ochrony danych osobowych bez zbędnej zwłoki po jego wykryciu.</li><li>W miarę dostępnych informacji zgłoszenie będzie obejmować charakter naruszenia, możliwe konsekwencje oraz podjęte lub proponowane środki zaradcze.</li><li>Strony współpracują przy ustalaniu okoliczności naruszenia i realizacji obowiązków wynikających z RODO.</li><li>Usługodawca zobowiązuje się przekazać informację o naruszeniu w miarę możliwości w ciągu 48 godzin od jego stwierdzenia. Termin ten stanowi uzgodniony cel umowny i nie zastępuje obowiązku działania bez zbędnej zwłoki.</li></ol></section>
+<section class="par" id="p15"><h2><span>§ 15.</span> Obowiązki warsztatu jako administratora</h2><ol><li>Warsztat odpowiada w szczególności za:<ul><li>ustalenie właściwej podstawy prawnej przetwarzania danych;</li><li>realizację obowiązków informacyjnych wobec osób dzwoniących;</li><li>poinformowanie rozmówców o działaniu Asystenta AI i zasadach przetwarzania danych;</li><li>ustalenie, czy rozmowy będą nagrywane, oraz zapewnienie zgodności tej funkcji z prawem;</li><li>określenie zasad przechowywania danych;</li><li>rozpatrywanie żądań osób, których dane dotyczą;</li><li>prawidłową konfigurację i kontrolę dostępu do Google Calendar.</li></ul></li><li>Jeżeli w danym wdrożeniu włączone jest nagrywanie rozmów, warsztat powinien przed uruchomieniem usługi zweryfikować podstawę prawną, obowiązki informacyjne i zasady dostępu do nagrań.</li><li>Warsztat przekazuje Usługodawcy instrukcje dotyczące zakresu danych, zasad ich przetwarzania i realizacji praw osób, których dane dotyczą.</li><li>Usługodawca może przekazać warsztatowi informacje techniczne potrzebne do przygotowania klauzuli informacyjnej, ale nie zastępuje to obowiązków warsztatu jako administratora danych.</li></ol></section>
+<section class="par" id="p16"><h2><span>§ 16.</span> Poufność</h2><ol><li>Strony zobowiązują się zachować poufność informacji technicznych, handlowych i organizacyjnych uzyskanych w związku ze współpracą, z wyjątkiem informacji publicznie dostępnych lub takich, których ujawnienia wymagają przepisy prawa.</li><li>Usługodawca zobowiązuje się zapewnić poufność danych osobowych przetwarzanych w imieniu warsztatu.</li><li>Obowiązek poufności pozostaje w mocy również po zakończeniu współpracy.</li></ol></section>
+<section class="par" id="p17"><h2><span>§ 17.</span> Postanowienia końcowe</h2><ol><li>Regulamin określa zasady bezpłatnego testowania Asystenta oraz warunki powierzenia przetwarzania danych osobowych w zakresie opisanym w dokumencie.</li><li>Zmiany zakresu usługi, integracji, zasad rezerwowania wizyt lub warunków płatnej kontynuacji mogą wymagać dodatkowych uzgodnień między stronami.</li><li>W sprawach nieuregulowanych zastosowanie mają właściwe przepisy prawa polskiego i prawa Unii Europejskiej, w szczególności RODO.</li><li>Jeżeli którekolwiek postanowienie okaże się nieważne lub niewykonalne, nie wpływa to automatycznie na ważność pozostałych postanowień.</li><li>Regulamin nie wyłącza ani nie ogranicza praw, których wyłączenie lub ograniczenie byłoby niedopuszczalne na mocy bezwzględnie obowiązujących przepisów.</li></ol></section>
+<section class="par" id="p18"><h2><span>§ 18.</span> Akceptacja regulaminu i powierzenia danych</h2><ol><li>Przed aktywacją usługi warsztat otrzymuje możliwość zapoznania się z regulaminem oraz warunkami powierzenia przetwarzania danych.</li><li>Akceptacja może nastąpić w formie dokumentowej, np. poprzez wiadomość e-mail lub inną wiadomość, w której warsztat jednoznacznie potwierdzi zgodę na warunki dokumentu.</li><li>Dla celów dowodowych Usługodawca może poprosić warsztat o przesłanie wiadomości o treści: <strong>„AKCEPTUJĘ REGULAMIN I UMOWĘ POWIERZENIA PRZETWARZANIA DANYCH”</strong>.</li><li>Przed aktywacją warsztat i Usługodawca uzgadniają konfigurację Asystenta, integrację z Google Calendar oraz zasady obsługi rezerwacji.</li><li>Regulamin i umowa powierzenia nie zastępują obowiązków informacyjnych wobec klientów warsztatu ani innych dokumentów wymaganych w konkretnym wdrożeniu.</li></ol></section>
+
+    <div class="back"><a class="btn" href="index.html">← Wróć na stronę główną</a></div>
+</div>
+  </div>
 </main>
 
 <footer>
-  <div class="wrap">
-    <span>© Łukasz Depta · Wersja 1.2 · 14.10.2026</span>
-    <span><a href="index.html">← Wróć na stronę główną</a></span>
+  <div class="wrap wide foot">
+    <div>
+      <a class="logo" href="index.html"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .3l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .3-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></i>Halo Warsztat</a>
+      <p>Asystent AI do obsługi telefonów w warsztatach samochodowych.</p>
+    </div>
+    <div class="col">
+      <strong>Kontakt</strong><br>
+      <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a><br>
+      <a href="https://wa.me/48732530024">+48 732 530 024</a>
+    </div>
+    <div class="col">
+      <a href="regulamin.html">Regulamin darmowego testu i umowa powierzenia danych (wersja 2.2)</a><br>
+      <a href="regulamin.html#p1">Informacje o administratorze danych</a>
+    </div>
   </div>
 </footer>
-
+<div class="accept"><a href="https://wa.me/48732530024?text=AKCEPTUJ%C4%98%20REGULAMIN%20I%20UMOW%C4%98%20POWIERZENIA%20PRZETWARZANIA%20DANYCH" target="_blank" rel="noopener"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.200-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 .9-2.300c.3-.3.600-.3.800-.3h.6c.2 0 .4 0 .6.500l.8 2c.1.200.1.400 0 .6l-.4.600c-.2.200-.4.400-.2.800.2.400 1 1.600 2.100 2.600 1.400 1.200 2.600 1.600 3 1.800.4.200.6.100.8-.1l.9-1.100c.2-.3.500-.2.800-.1l1.900.9c.3.200.5.300.6.400.1.200.1.800-.1 1.400z"/></svg>Akceptuję regulamin i umowę powierzenia przetwarzania danych</a></div>
 </body>
 </html>
