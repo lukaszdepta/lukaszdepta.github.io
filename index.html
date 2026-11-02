@@ -384,8 +384,8 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
       <h2>Sprawdź, czy asystent sprawdzi się w Twoim warsztacie</h2>
       <p class="lead">Zostaw kontakt, a porozmawiamy o tym, jak obsługujesz telefony i jak asystent mógłby pomóc w Twojej codziennej pracy.</p>
       <ul class="contact-info">
-        <li><b>WhatsApp:</b> <a href="https://wa.me/48732530024">+48 732 530 024</a></li>
-        <li><b>Telefon:</b> <a href="tel:+48732530024">+48 732 530 024</a></li>
+        <li><b>WhatsApp:</b> <a href="https://wa.me/48456775689">+48 456 775 689</a></li>
+        <li><b>Telefon:</b> <a href="tel:+48456775689">+48 456 775 689</a></li>
         <li><b>E-mail:</b> <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a></li>
       </ul>
       <div class="me">
@@ -397,7 +397,6 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
       <label for="f-name">Imię<input id="f-name" name="imie" type="text" autocomplete="given-name" required></label>
       <label for="f-shop">Nazwa warsztatu<input id="f-shop" name="warsztat" type="text" autocomplete="organization" required></label>
       <label for="f-phone">Numer telefonu<input id="f-phone" name="telefon" type="tel" autocomplete="tel" required></label>
-      <label for="f-mail">Adres e-mail <em>(opcjonalnie)</em><input id="f-mail" name="email" type="email" autocomplete="email"></label>
       <button class="btn btn-yellow" type="submit">Chcę przetestować asystenta</button>
       <p class="note" id="note" role="status" hidden></p>
     </form>
@@ -413,11 +412,7 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
     <div class="col">
       <strong>Kontakt</strong><br>
       <a href="mailto:lukaszdepta09@icloud.com">lukaszdepta09@icloud.com</a><br>
-      <a href="https://wa.me/48732530024">+48 732 530 024</a>
-    </div>
-    <div class="col">
-      <a href="regulamin.html">Regulamin darmowego testu i umowa powierzenia danych (wersja 1.2)</a><br>
-      <a href="regulamin.html">Informacje o administratorze danych</a>
+      <a href="https://wa.me/48456775689">+48 456 775 689</a>
     </div>
   </div>
 </footer>
@@ -613,14 +608,21 @@ footer p{color:var(--foot-muted);font-size:17px;margin-top:14px;max-width:26em}
   var form=document.getElementById('lead');
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    var bad=['f-name','f-shop','f-phone'].filter(function(id){return !document.getElementById(id).value.trim()});
+    var name=document.getElementById('f-name').value.trim(),
+        shop=document.getElementById('f-shop').value.trim(),
+        phone=document.getElementById('f-phone').value.trim(),
+        digits=phone.replace(/\D/g,'');
     showNote('');
-    if(bad.length){
-      showNote('Uzupełnij imię, nazwę warsztatu i numer telefonu.');
-      document.getElementById(bad[0]).focus();
+    if(!name){showNote('Wpisz swoje imię.');document.getElementById('f-name').focus();return}
+    if(!shop){showNote('Wpisz nazwę warsztatu.');document.getElementById('f-shop').focus();return}
+    if(!phone){showNote('Wpisz numer telefonu.');document.getElementById('f-phone').focus();return}
+    if(digits.length<9||digits.length>12||!/^[+\d\s()-]+$/.test(phone)){
+      showNote('Wpisz poprawny numer telefonu, np. 600 123 456.');
+      document.getElementById('f-phone').focus();
       return;
     }
-    showNote('To jest podgląd strony. Formularz zostanie połączony z pocztą przed publikacją, więc na razie nic nie zostało wysłane.');
+    var msg='Dzień dobry, mam na imię '+name+', prowadzę warsztat: '+shop+'. Mój numer telefonu to '+phone+'. Chcę przetestować asystenta.';
+    window.location.href='https://wa.me/48456775689?text='+encodeURIComponent(msg);
   });
 
   /* Zdjęcie profilowe (opcjonalne) */
